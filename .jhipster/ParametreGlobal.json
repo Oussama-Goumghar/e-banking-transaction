@@ -1,0 +1,32 @@
+{
+  "name": "ParametreGlobal",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "key",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "value",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [],
+  "entityTableName": "parametre_global",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["transactionApi"],
+  "microserviceName": "transactionApi",
+  "clientRootFolder": "transactionApi",
+  "databaseType": "sql",
+  "changelogDate": "20220117230159"
+}

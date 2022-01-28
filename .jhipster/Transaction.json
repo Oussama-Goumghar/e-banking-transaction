@@ -1,0 +1,79 @@
+{
+  "name": "Transaction",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "reference",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "montant",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "dateEmission",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pin",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "notify",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "idAgent",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "idClient",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "idBenificiair",
+      "fieldType": "Long"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "transactionType",
+      "otherEntityRelationshipName": "transaction",
+      "relationshipName": "transactionType"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "motif",
+      "otherEntityRelationshipName": "transaction",
+      "relationshipName": "motif"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "frait",
+      "otherEntityRelationshipName": "transaction",
+      "relationshipName": "frait"
+    }
+  ],
+  "entityTableName": "transaction",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["transactionApi"],
+  "microserviceName": "transactionApi",
+  "clientRootFolder": "transactionApi",
+  "databaseType": "sql",
+  "changelogDate": "20220117225959"
+}

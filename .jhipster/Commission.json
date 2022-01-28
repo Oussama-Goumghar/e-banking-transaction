@@ -1,0 +1,36 @@
+{
+  "name": "Commission",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "idAgent",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "dateRetrait",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "value",
+      "fieldType": "Double"
+    }
+  ],
+  "relationships": [],
+  "entityTableName": "commission",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["transactionApi"],
+  "microserviceName": "transactionApi",
+  "clientRootFolder": "transactionApi",
+  "databaseType": "sql",
+  "changelogDate": "20220117225759"
+}

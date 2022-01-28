@@ -1,0 +1,36 @@
+{
+  "name": "TransactionType",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "plafondTransaction",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "plafondAnnuel",
+      "fieldType": "Double"
+    }
+  ],
+  "relationships": [],
+  "entityTableName": "transaction_type",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["transactionApi"],
+  "microserviceName": "transactionApi",
+  "clientRootFolder": "transactionApi",
+  "databaseType": "sql",
+  "changelogDate": "20220117225859"
+}

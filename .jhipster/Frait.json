@@ -1,0 +1,32 @@
+{
+  "name": "Frait",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "montant",
+      "fieldType": "Double"
+    }
+  ],
+  "relationships": [],
+  "entityTableName": "frait",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["transactionApi"],
+  "microserviceName": "transactionApi",
+  "clientRootFolder": "transactionApi",
+  "databaseType": "sql",
+  "changelogDate": "20220117225659"
+}
