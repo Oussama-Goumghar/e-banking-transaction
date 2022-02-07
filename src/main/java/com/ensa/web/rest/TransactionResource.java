@@ -143,8 +143,8 @@ public class TransactionResource {
                 if (transaction.getNotify() != null) {
                     existingTransaction.setNotify(transaction.getNotify());
                 }
-                if (transaction.getIdAgent() != null) {
-                    existingTransaction.setIdAgent(transaction.getIdAgent());
+                if (transaction.getLoginAgent() != null) {
+                    existingTransaction.setLoginAgent(transaction.getLoginAgent());
                 }
                 if (transaction.getIdClient() != null) {
                     existingTransaction.setIdClient(transaction.getIdClient());

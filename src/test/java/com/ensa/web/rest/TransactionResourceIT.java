@@ -49,8 +49,8 @@ class TransactionResourceIT {
     private static final Boolean DEFAULT_NOTIFY = false;
     private static final Boolean UPDATED_NOTIFY = true;
 
-    private static final Long DEFAULT_ID_AGENT = 1L;
-    private static final Long UPDATED_ID_AGENT = 2L;
+    private static final String DEFAULT_LOGIN_AGENT = "AAAAAAA";
+    private static final String UPDATED_LOGIN_AGENT = "BBBBBBBB";
 
     private static final Long DEFAULT_ID_CLIENT = 1L;
     private static final Long UPDATED_ID_CLIENT = 2L;
@@ -89,7 +89,7 @@ class TransactionResourceIT {
             .status(DEFAULT_STATUS)
             .pin(DEFAULT_PIN)
             .notify(DEFAULT_NOTIFY)
-            .idAgent(DEFAULT_ID_AGENT)
+            .loginAgent(DEFAULT_LOGIN_AGENT)
             .idClient(DEFAULT_ID_CLIENT)
             .idBenificiair(DEFAULT_ID_BENIFICIAIR);
         return transaction;
@@ -109,7 +109,7 @@ class TransactionResourceIT {
             .status(UPDATED_STATUS)
             .pin(UPDATED_PIN)
             .notify(UPDATED_NOTIFY)
-            .idAgent(UPDATED_ID_AGENT)
+            .loginAgent(UPDATED_LOGIN_AGENT)
             .idClient(UPDATED_ID_CLIENT)
             .idBenificiair(UPDATED_ID_BENIFICIAIR);
         return transaction;
@@ -139,7 +139,7 @@ class TransactionResourceIT {
         assertThat(testTransaction.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testTransaction.getPin()).isEqualTo(DEFAULT_PIN);
         assertThat(testTransaction.getNotify()).isEqualTo(DEFAULT_NOTIFY);
-        assertThat(testTransaction.getIdAgent()).isEqualTo(DEFAULT_ID_AGENT);
+        assertThat(testTransaction.getLoginAgent()).isEqualTo(DEFAULT_LOGIN_AGENT);
         assertThat(testTransaction.getIdClient()).isEqualTo(DEFAULT_ID_CLIENT);
         assertThat(testTransaction.getIdBenificiair()).isEqualTo(DEFAULT_ID_BENIFICIAIR);
     }
@@ -180,7 +180,7 @@ class TransactionResourceIT {
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS)))
             .andExpect(jsonPath("$.[*].pin").value(hasItem(DEFAULT_PIN)))
             .andExpect(jsonPath("$.[*].notify").value(hasItem(DEFAULT_NOTIFY.booleanValue())))
-            .andExpect(jsonPath("$.[*].idAgent").value(hasItem(DEFAULT_ID_AGENT.intValue())))
+            .andExpect(jsonPath("$.[*].loginAgent").value(hasItem(DEFAULT_LOGIN_AGENT)))
             .andExpect(jsonPath("$.[*].idClient").value(hasItem(DEFAULT_ID_CLIENT.intValue())))
             .andExpect(jsonPath("$.[*].idBenificiair").value(hasItem(DEFAULT_ID_BENIFICIAIR.intValue())));
     }
@@ -203,7 +203,7 @@ class TransactionResourceIT {
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS))
             .andExpect(jsonPath("$.pin").value(DEFAULT_PIN))
             .andExpect(jsonPath("$.notify").value(DEFAULT_NOTIFY.booleanValue()))
-            .andExpect(jsonPath("$.idAgent").value(DEFAULT_ID_AGENT.intValue()))
+            .andExpect(jsonPath("$.loginAgent").value(DEFAULT_LOGIN_AGENT))
             .andExpect(jsonPath("$.idClient").value(DEFAULT_ID_CLIENT.intValue()))
             .andExpect(jsonPath("$.idBenificiair").value(DEFAULT_ID_BENIFICIAIR.intValue()));
     }
@@ -234,7 +234,7 @@ class TransactionResourceIT {
             .status(UPDATED_STATUS)
             .pin(UPDATED_PIN)
             .notify(UPDATED_NOTIFY)
-            .idAgent(UPDATED_ID_AGENT)
+            .loginAgent(UPDATED_LOGIN_AGENT)
             .idClient(UPDATED_ID_CLIENT)
             .idBenificiair(UPDATED_ID_BENIFICIAIR);
 
@@ -256,7 +256,7 @@ class TransactionResourceIT {
         assertThat(testTransaction.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testTransaction.getPin()).isEqualTo(UPDATED_PIN);
         assertThat(testTransaction.getNotify()).isEqualTo(UPDATED_NOTIFY);
-        assertThat(testTransaction.getIdAgent()).isEqualTo(UPDATED_ID_AGENT);
+        assertThat(testTransaction.getLoginAgent()).isEqualTo(UPDATED_LOGIN_AGENT);
         assertThat(testTransaction.getIdClient()).isEqualTo(UPDATED_ID_CLIENT);
         assertThat(testTransaction.getIdBenificiair()).isEqualTo(UPDATED_ID_BENIFICIAIR);
     }
@@ -349,7 +349,7 @@ class TransactionResourceIT {
         assertThat(testTransaction.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testTransaction.getPin()).isEqualTo(DEFAULT_PIN);
         assertThat(testTransaction.getNotify()).isEqualTo(DEFAULT_NOTIFY);
-        assertThat(testTransaction.getIdAgent()).isEqualTo(DEFAULT_ID_AGENT);
+        assertThat(testTransaction.getLoginAgent()).isEqualTo(DEFAULT_LOGIN_AGENT);
         assertThat(testTransaction.getIdClient()).isEqualTo(DEFAULT_ID_CLIENT);
         assertThat(testTransaction.getIdBenificiair()).isEqualTo(UPDATED_ID_BENIFICIAIR);
     }
@@ -373,7 +373,7 @@ class TransactionResourceIT {
             .status(UPDATED_STATUS)
             .pin(UPDATED_PIN)
             .notify(UPDATED_NOTIFY)
-            .idAgent(UPDATED_ID_AGENT)
+            .loginAgent(UPDATED_LOGIN_AGENT)
             .idClient(UPDATED_ID_CLIENT)
             .idBenificiair(UPDATED_ID_BENIFICIAIR);
 
@@ -395,7 +395,7 @@ class TransactionResourceIT {
         assertThat(testTransaction.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testTransaction.getPin()).isEqualTo(UPDATED_PIN);
         assertThat(testTransaction.getNotify()).isEqualTo(UPDATED_NOTIFY);
-        assertThat(testTransaction.getIdAgent()).isEqualTo(UPDATED_ID_AGENT);
+        assertThat(testTransaction.getLoginAgent()).isEqualTo(UPDATED_LOGIN_AGENT);
         assertThat(testTransaction.getIdClient()).isEqualTo(UPDATED_ID_CLIENT);
         assertThat(testTransaction.getIdBenificiair()).isEqualTo(UPDATED_ID_BENIFICIAIR);
     }
