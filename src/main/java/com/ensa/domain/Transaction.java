@@ -44,8 +44,8 @@ public class Transaction implements Serializable {
     @Column(name = "login_agent")
     private String loginAgent;
 
-    @Column(name = "id_client")
-    private Long idClient;
+    @Column(name = "num_client")
+    private String numClient;
 
     @Column(name = "id_benificiair")
     private Long idBenificiair;
@@ -165,17 +165,17 @@ public class Transaction implements Serializable {
         this.loginAgent = loginAgent;
     }
 
-    public Long getIdClient() {
-        return this.idClient;
+    public String getNumClient() {
+        return this.numClient;
     }
 
-    public Transaction idClient(Long idClient) {
-        this.setIdClient(idClient);
+    public Transaction numClient(String numClient) {
+        this.setNumClient(numClient);
         return this;
     }
 
-    public void setIdClient(Long idClient) {
-        this.idClient = idClient;
+    public void setNumClient(String numClient) {
+        this.numClient = numClient;
     }
 
     public Long getIdBenificiair() {
@@ -261,7 +261,7 @@ public class Transaction implements Serializable {
             ", pin=" + getPin() +
             ", notify='" + getNotify() + "'" +
             ", loginAgent=" + getLoginAgent() +
-            ", idClient=" + getIdClient() +
+            ", NumClient=" + getNumClient() +
             ", idBenificiair=" + getIdBenificiair() +
             "}";
     }

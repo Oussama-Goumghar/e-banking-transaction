@@ -1,4 +1,4 @@
-id;reference;montant;date_emission;status;pin;notify;login_agent;id_client;id_benificiair
+id;reference;montant;date_emission;status;pin;notify;login_agent;num_client;id_benificiair
 1;Kentucky;7182;2022-01-17;Investment;99701;true;56354;99553;95136
 2;B2B;83454;2022-01-17;cross-platform grow;1914;true;78266;38347;39660
 3;internet;73402;2022-01-16;Innovative SQL Checking;97190;false;3216;94816;53629

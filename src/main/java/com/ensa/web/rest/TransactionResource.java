@@ -146,8 +146,8 @@ public class TransactionResource {
                 if (transaction.getLoginAgent() != null) {
                     existingTransaction.setLoginAgent(transaction.getLoginAgent());
                 }
-                if (transaction.getIdClient() != null) {
-                    existingTransaction.setIdClient(transaction.getIdClient());
+                if (transaction.getNumClient() != null) {
+                    existingTransaction.setNumClient(transaction.getNumClient());
                 }
                 if (transaction.getIdBenificiair() != null) {
                     existingTransaction.setIdBenificiair(transaction.getIdBenificiair());

@@ -35,7 +35,7 @@
             <column name="login_agent" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="id_client" type="bigint">
+            <column name="num_client" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="id_benificiair" type="bigint">
@@ -78,7 +78,7 @@
             <column name="pin" type="numeric"/>
             <column name="notify" type="boolean"/>
             <column name="login_agent" type="string"/>
-            <column name="id_client" type="numeric"/>
+            <column name="num_client" type="string"/>
             <column name="id_benificiair" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>

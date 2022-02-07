@@ -39,13 +39,6 @@ public class CommissionResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final CommissionRepository commissionRepository;
-
-    public CommissionResource(CommissionRepository commissionRepository) {
-        this.commissionRepository = commissionRepository;
-
-    }
-
     /**
      * {@code POST  /commissions} : Create a new commission.
      *
