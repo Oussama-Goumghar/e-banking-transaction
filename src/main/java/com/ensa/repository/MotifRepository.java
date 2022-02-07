@@ -9,4 +9,8 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface MotifRepository extends JpaRepository<Motif, Long> {}
+public interface MotifRepository extends JpaRepository<Motif, Long> {
+    Motif findMotifByLibelle(String libelle);
+
+    Motif findMotifById(Long id);
+}

@@ -9,4 +9,8 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface FraitRepository extends JpaRepository<Frait, Long> {}
+public interface FraitRepository extends JpaRepository<Frait, Long> {
+    Frait findFraitByType(String type);
+
+    Frait findFraitById(Long id);
+}

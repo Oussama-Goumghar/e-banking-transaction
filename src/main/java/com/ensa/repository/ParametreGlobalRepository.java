@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ParametreGlobalRepository extends JpaRepository<ParametreGlobal, Long> {}
+public interface ParametreGlobalRepository extends JpaRepository<ParametreGlobal, Long> {
+    ParametreGlobal findParametreGlobalByKey(String key);
+}

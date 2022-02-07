@@ -1,7 +1,7 @@
 package com.ensa.repository;
 
 import com.ensa.domain.TransactionType;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -9,4 +9,8 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface TransactionTypeRepository extends JpaRepository<TransactionType, Long> {}
+public interface TransactionTypeRepository extends JpaRepository<TransactionType, Long> {
+    TransactionType findTransactionTypeByType(String type);
+
+    TransactionType findTransactionTypeById(Long id);
+}
