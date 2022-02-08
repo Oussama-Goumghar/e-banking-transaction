@@ -31,8 +31,6 @@ public class ParametreGlobalResource {
 
     private final Logger log = LoggerFactory.getLogger(ParametreGlobalResource.class);
 
-    private static final String ENTITY_NAME = "transactionApiParametreGlobal";
-
     @Autowired
     ParametreGlobalService parametreGlobalService;
     /**
@@ -46,9 +44,6 @@ public class ParametreGlobalResource {
     public int createParametreGlobal(@Valid @RequestBody ParametreGlobal parametreGlobal)
         throws URISyntaxException {
         log.debug("REST request to save ParametreGlobal : {}", parametreGlobal);
-        if (parametreGlobal.getId() != null) {
-            throw new BadRequestAlertException("A new parametreGlobal cannot already have an ID", ENTITY_NAME, "idexists");
-        }
         return parametreGlobalService.createParametreGlobal(parametreGlobal);
     }
 
@@ -68,12 +63,6 @@ public class ParametreGlobalResource {
         @Valid @RequestBody ParametreGlobal parametreGlobal
     ) throws URISyntaxException {
         log.debug("REST request to update ParametreGlobal : {}, {}", id, parametreGlobal);
-        if (parametreGlobal.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (!Objects.equals(id, parametreGlobal.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
-        }
         return parametreGlobalService.updateParametreGlobal(id, parametreGlobal);
     }
 
@@ -94,12 +83,6 @@ public class ParametreGlobalResource {
         @NotNull @RequestBody ParametreGlobal parametreGlobal
     ) throws URISyntaxException {
         log.debug("REST request to partial update ParametreGlobal partially : {}, {}", id, parametreGlobal);
-        if (parametreGlobal.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (!Objects.equals(id, parametreGlobal.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
-        }
         return parametreGlobalService.partialUpdateParametreGlobal(id, parametreGlobal);
     }
 

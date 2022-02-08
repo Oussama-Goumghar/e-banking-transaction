@@ -31,8 +31,6 @@ public class MotifResource {
 
     private final Logger log = LoggerFactory.getLogger(MotifResource.class);
 
-    private static final String ENTITY_NAME = "transactionApiMotif";
-
     @Autowired
     MotifService motifService;
 
@@ -46,9 +44,6 @@ public class MotifResource {
     @PostMapping("/motifs")
     public int createMotif(@Valid @RequestBody Motif motif) throws URISyntaxException {
         log.debug("REST request to save Motif : {}", motif);
-        if (motif.getId() != null) {
-            throw new BadRequestAlertException("A new motif cannot already have an ID", ENTITY_NAME, "idexists");
-        }
         return motifService.createMotif(motif);
     }
 
@@ -66,12 +61,6 @@ public class MotifResource {
     public int updateMotif(@PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody Motif motif)
         throws URISyntaxException {
         log.debug("REST request to update Motif : {}, {}", id, motif);
-        if (motif.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (!Objects.equals(id, motif.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
-        }
         return motifService.updateMotif(id, motif);
     }
 
@@ -92,12 +81,6 @@ public class MotifResource {
         @NotNull @RequestBody Motif motif
     ) throws URISyntaxException {
         log.debug("REST request to partial update Motif partially : {}, {}", id, motif);
-        if (motif.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (!Objects.equals(id, motif.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
-        }
         return motifService.partialUpdateMotif(id, motif);
     }
 

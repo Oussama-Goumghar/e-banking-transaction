@@ -31,8 +31,6 @@ public class TransactionTypeResource {
 
     private final Logger log = LoggerFactory.getLogger(TransactionTypeResource.class);
 
-    private static final String ENTITY_NAME = "transactionApiTransactionType";
-
     @Autowired
     TransactionTypeService transactionTypeService;
     /**
@@ -46,9 +44,6 @@ public class TransactionTypeResource {
     public int createTransactionType(@Valid @RequestBody TransactionType transactionType)
         throws URISyntaxException {
         log.debug("REST request to save TransactionType : {}", transactionType);
-        if (transactionType.getId() != null) {
-            throw new BadRequestAlertException("A new transactionType cannot already have an ID", ENTITY_NAME, "idexists");
-        }
         return transactionTypeService.createTransactionType(transactionType);
     }
 
@@ -68,13 +63,6 @@ public class TransactionTypeResource {
         @Valid @RequestBody TransactionType transactionType
     ) throws URISyntaxException {
         log.debug("REST request to update TransactionType : {}, {}", id, transactionType);
-        if (transactionType.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (!Objects.equals(id, transactionType.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
-        }
-
         return transactionTypeService.updateTransactionType(id, transactionType);
     }
 
@@ -95,12 +83,6 @@ public class TransactionTypeResource {
         @NotNull @RequestBody TransactionType transactionType
     ) throws URISyntaxException {
         log.debug("REST request to partial update TransactionType partially : {}, {}", id, transactionType);
-        if (transactionType.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (!Objects.equals(id, transactionType.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
-        }
         return transactionTypeService.partialUpdateTransactionType(id, transactionType);
     }
 

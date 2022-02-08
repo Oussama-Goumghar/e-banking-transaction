@@ -33,9 +33,6 @@ public class CommissionResource {
 
     private final Logger log = LoggerFactory.getLogger(CommissionResource.class);
 
-
-    private static final String ENTITY_NAME = "transactionApiCommission";
-
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
@@ -49,9 +46,6 @@ public class CommissionResource {
     @PostMapping("/commissions")
     public int createCommission(@Valid @RequestBody Commission commission) throws URISyntaxException {
         log.debug("REST request to save Commission : {}", commission);
-        if (commission.getId() != null) {
-            throw new BadRequestAlertException("A new commission cannot already have an ID", ENTITY_NAME, "idexists");
-        }
         return commissionService.createCommission(commission);
     }
 
@@ -71,12 +65,6 @@ public class CommissionResource {
         @Valid @RequestBody Commission commission
     ) throws URISyntaxException {
         log.debug("REST request to update Commission : {}, {}", id, commission);
-        if (commission.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (!Objects.equals(id, commission.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
-        }
         return commissionService.updateCommission(id, commission);
     }
 
@@ -97,12 +85,6 @@ public class CommissionResource {
         @NotNull @RequestBody Commission commission
     ) throws URISyntaxException {
         log.debug("REST request to partial update Commission partially : {}, {}", id, commission);
-        if (commission.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (!Objects.equals(id, commission.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
-        }
         return commissionService.partialUpdateCommission(id, commission);
     }
 

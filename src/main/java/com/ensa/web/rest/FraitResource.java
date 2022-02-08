@@ -31,8 +31,6 @@ public class FraitResource {
 
     private final Logger log = LoggerFactory.getLogger(FraitResource.class);
 
-    private static final String ENTITY_NAME = "transactionApiFrait";
-
     @Autowired
     FraitService fraitService;
 
@@ -46,9 +44,6 @@ public class FraitResource {
     @PostMapping("/fraits")
     public int createFrait(@Valid @RequestBody Frait frait) throws URISyntaxException {
         log.debug("REST request to save Frait : {}", frait);
-        if (frait.getId() != null) {
-            throw new BadRequestAlertException("A new frait cannot already have an ID", ENTITY_NAME, "idexists");
-        }
         return fraitService.createFrait(frait);
     }
 
@@ -66,12 +61,6 @@ public class FraitResource {
     public int updateFrait(@PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody Frait frait)
         throws URISyntaxException {
         log.debug("REST request to update Frait : {}, {}", id, frait);
-        if (frait.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (!Objects.equals(id, frait.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
-        }
       return   fraitService.updateFrait(id, frait);
     }
 
@@ -92,12 +81,6 @@ public class FraitResource {
         @NotNull @RequestBody Frait frait
     ) throws URISyntaxException {
         log.debug("REST request to partial update Frait partially : {}, {}", id, frait);
-        if (frait.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (!Objects.equals(id, frait.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
-        }
         return fraitService.partialUpdateFrait(id, frait);
     }
 

@@ -26,8 +26,6 @@ public class TransactionResource {
 
     private final Logger log = LoggerFactory.getLogger(TransactionResource.class);
 
-    private static final String ENTITY_NAME = "transactionApiTransaction";
-
     @Autowired
     TransactionService transactionService;
 
@@ -44,9 +42,6 @@ public class TransactionResource {
                                  @PathVariable(value = "transactionType", required = false) final String transactionType,
                                  @PathVariable(value = "fraitType", required = false) final String fraitType) throws URISyntaxException {
         log.debug("REST request to save Transaction : {}", transaction);
-        if (transaction.getId() != null) {
-            throw new BadRequestAlertException("A new transaction cannot already have an ID", ENTITY_NAME, "idexists");
-        }
         return transactionService.createTransaction(transaction, motifLibelle, transactionType, fraitType);
     }
 
