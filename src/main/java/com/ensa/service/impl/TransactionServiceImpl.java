@@ -31,18 +31,17 @@ public class TransactionServiceImpl implements TransactionService {
     FraitRepository fraitRepository;
 
     @Override
-    public int createTransaction(Transaction transaction, Long motifId, Long transactionTypeId, Long fraitId) {
+    public int createTransaction(Transaction transaction,  String motifLibelle, String transactionType, String fraitType) {
 
-        if (transactionTypeRepository.existsById(transactionTypeId) && motifRepository.existsById(motifId) && fraitRepository.existsById(fraitId)) {
-            TransactionType transactionType = transactionTypeRepository.findTransactionTypeById(transactionTypeId);
-            Motif motif = motifRepository.findMotifById(motifId);
-            Frait frait = fraitRepository.findFraitById(fraitId);
+        Motif motifCheck = motifRepository.findMotifByLibelle(motifLibelle);
+        TransactionType transactionTypeCheck = transactionTypeRepository.findTransactionTypeByType(transactionType);
+        Frait fraitCheck = fraitRepository.findFraitByType(fraitType);
 
-            transaction.setTransactionType(transactionType);
-            transaction.setFrait(frait);
-            transaction.setMotif(motif);
+        if (transactionTypeCheck != null && motifCheck != null && fraitCheck != null) {
+            transaction.setTransactionType(transactionTypeCheck);
+            transaction.setFrait(fraitCheck);
+            transaction.setMotif(motifCheck);
             transactionRepository.save(transaction);
-
             return 1;
         } else {
             return -1;

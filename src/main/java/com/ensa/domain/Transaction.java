@@ -47,8 +47,8 @@ public class Transaction implements Serializable {
     @Column(name = "num_client")
     private String numClient;
 
-    @Column(name = "id_benificiair")
-    private Long idBenificiair;
+    @Column(name = "num_benificiair")
+    private String numBenificiair;
 
     @ManyToOne
     private TransactionType transactionType;
@@ -178,17 +178,17 @@ public class Transaction implements Serializable {
         this.numClient = numClient;
     }
 
-    public Long getIdBenificiair() {
-        return this.idBenificiair;
+    public String getNumBenificiair() {
+        return this.numBenificiair;
     }
 
-    public Transaction idBenificiair(Long idBenificiair) {
-        this.setIdBenificiair(idBenificiair);
+    public Transaction numBenificiair(String numBenificiair) {
+        this.setNumBenificiair(numBenificiair);
         return this;
     }
 
-    public void setIdBenificiair(Long idBenificiair) {
-        this.idBenificiair = idBenificiair;
+    public void setNumBenificiair(String numBenificiair) {
+        this.numBenificiair = numBenificiair;
     }
 
     public TransactionType getTransactionType() {
@@ -261,8 +261,8 @@ public class Transaction implements Serializable {
             ", pin=" + getPin() +
             ", notify='" + getNotify() + "'" +
             ", loginAgent=" + getLoginAgent() +
-            ", NumClient=" + getNumClient() +
-            ", idBenificiair=" + getIdBenificiair() +
+            ", numClient=" + getNumClient() +
+            ", numBenificiair=" + getNumBenificiair() +
             "}";
     }
 }

@@ -52,7 +52,6 @@ public class CommissionResource {
         if (commission.getId() != null) {
             throw new BadRequestAlertException("A new commission cannot already have an ID", ENTITY_NAME, "idexists");
         }
-
         return commissionService.createCommission(commission);
     }
 
@@ -78,10 +77,7 @@ public class CommissionResource {
         if (!Objects.equals(id, commission.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
-
         return commissionService.updateCommission(id, commission);
-
     }
 
     /**

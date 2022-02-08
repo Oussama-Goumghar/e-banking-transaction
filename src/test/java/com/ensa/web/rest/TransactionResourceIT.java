@@ -55,8 +55,8 @@ class TransactionResourceIT {
     private static final String DEFAULT_NUM_CLIENT = "WWWWWWW";
     private static final String UPDATED_NUM_CLIENT = "VVVVVVV";
 
-    private static final Long DEFAULT_ID_BENIFICIAIR = 1L;
-    private static final Long UPDATED_ID_BENIFICIAIR = 2L;
+    private static final String DEFAULT_NUM_BENIFICIAIR = "MMMMMM";
+    private static final String UPDATED_NUM_BENIFICIAIR = "FFFFFFF";
 
     private static final String ENTITY_API_URL = "/api/transactions";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -91,7 +91,7 @@ class TransactionResourceIT {
             .notify(DEFAULT_NOTIFY)
             .loginAgent(DEFAULT_LOGIN_AGENT)
             .numClient(DEFAULT_NUM_CLIENT)
-            .idBenificiair(DEFAULT_ID_BENIFICIAIR);
+            .numBenificiair(DEFAULT_NUM_BENIFICIAIR);
         return transaction;
     }
 
@@ -111,7 +111,7 @@ class TransactionResourceIT {
             .notify(UPDATED_NOTIFY)
             .loginAgent(UPDATED_LOGIN_AGENT)
             .numClient(UPDATED_NUM_CLIENT)
-            .idBenificiair(UPDATED_ID_BENIFICIAIR);
+            .numBenificiair(UPDATED_NUM_BENIFICIAIR);
         return transaction;
     }
 
@@ -141,7 +141,7 @@ class TransactionResourceIT {
         assertThat(testTransaction.getNotify()).isEqualTo(DEFAULT_NOTIFY);
         assertThat(testTransaction.getLoginAgent()).isEqualTo(DEFAULT_LOGIN_AGENT);
         assertThat(testTransaction.getNumClient()).isEqualTo(DEFAULT_NUM_CLIENT);
-        assertThat(testTransaction.getIdBenificiair()).isEqualTo(DEFAULT_ID_BENIFICIAIR);
+        assertThat(testTransaction.getNumBenificiair()).isEqualTo(DEFAULT_NUM_BENIFICIAIR);
     }
 
     @Test
@@ -182,7 +182,7 @@ class TransactionResourceIT {
             .andExpect(jsonPath("$.[*].notify").value(hasItem(DEFAULT_NOTIFY.booleanValue())))
             .andExpect(jsonPath("$.[*].loginAgent").value(hasItem(DEFAULT_LOGIN_AGENT)))
             .andExpect(jsonPath("$.[*].numClient").value(hasItem(DEFAULT_NUM_CLIENT)))
-            .andExpect(jsonPath("$.[*].idBenificiair").value(hasItem(DEFAULT_ID_BENIFICIAIR.intValue())));
+            .andExpect(jsonPath("$.[*].numBenificiair").value(hasItem(DEFAULT_NUM_BENIFICIAIR)));
     }
 
     @Test
@@ -205,7 +205,7 @@ class TransactionResourceIT {
             .andExpect(jsonPath("$.notify").value(DEFAULT_NOTIFY.booleanValue()))
             .andExpect(jsonPath("$.loginAgent").value(DEFAULT_LOGIN_AGENT))
             .andExpect(jsonPath("$.numClient").value(DEFAULT_NUM_CLIENT))
-            .andExpect(jsonPath("$.idBenificiair").value(DEFAULT_ID_BENIFICIAIR.intValue()));
+            .andExpect(jsonPath("$.numBenificiair").value(DEFAULT_NUM_BENIFICIAIR));
     }
 
     @Test
@@ -236,7 +236,7 @@ class TransactionResourceIT {
             .notify(UPDATED_NOTIFY)
             .loginAgent(UPDATED_LOGIN_AGENT)
             .numClient(UPDATED_NUM_CLIENT)
-            .idBenificiair(UPDATED_ID_BENIFICIAIR);
+            .numBenificiair(UPDATED_NUM_BENIFICIAIR);
 
         restTransactionMockMvc
             .perform(
@@ -258,7 +258,7 @@ class TransactionResourceIT {
         assertThat(testTransaction.getNotify()).isEqualTo(UPDATED_NOTIFY);
         assertThat(testTransaction.getLoginAgent()).isEqualTo(UPDATED_LOGIN_AGENT);
         assertThat(testTransaction.getNumClient()).isEqualTo(UPDATED_NUM_CLIENT);
-        assertThat(testTransaction.getIdBenificiair()).isEqualTo(UPDATED_ID_BENIFICIAIR);
+        assertThat(testTransaction.getNumBenificiair()).isEqualTo(UPDATED_NUM_BENIFICIAIR);
     }
 
     @Test
@@ -329,7 +329,7 @@ class TransactionResourceIT {
         Transaction partialUpdatedTransaction = new Transaction();
         partialUpdatedTransaction.setId(transaction.getId());
 
-        partialUpdatedTransaction.montant(UPDATED_MONTANT).idBenificiair(UPDATED_ID_BENIFICIAIR);
+        partialUpdatedTransaction.montant(UPDATED_MONTANT).numBenificiair(UPDATED_NUM_BENIFICIAIR);
 
         restTransactionMockMvc
             .perform(
@@ -351,7 +351,7 @@ class TransactionResourceIT {
         assertThat(testTransaction.getNotify()).isEqualTo(DEFAULT_NOTIFY);
         assertThat(testTransaction.getLoginAgent()).isEqualTo(DEFAULT_LOGIN_AGENT);
         assertThat(testTransaction.getNumClient()).isEqualTo(DEFAULT_NUM_CLIENT);
-        assertThat(testTransaction.getIdBenificiair()).isEqualTo(UPDATED_ID_BENIFICIAIR);
+        assertThat(testTransaction.getNumBenificiair()).isEqualTo(UPDATED_NUM_BENIFICIAIR);
     }
 
     @Test
@@ -375,7 +375,7 @@ class TransactionResourceIT {
             .notify(UPDATED_NOTIFY)
             .loginAgent(UPDATED_LOGIN_AGENT)
             .numClient(UPDATED_NUM_CLIENT)
-            .idBenificiair(UPDATED_ID_BENIFICIAIR);
+            .numBenificiair(UPDATED_NUM_BENIFICIAIR);
 
         restTransactionMockMvc
             .perform(
@@ -397,7 +397,7 @@ class TransactionResourceIT {
         assertThat(testTransaction.getNotify()).isEqualTo(UPDATED_NOTIFY);
         assertThat(testTransaction.getLoginAgent()).isEqualTo(UPDATED_LOGIN_AGENT);
         assertThat(testTransaction.getNumClient()).isEqualTo(UPDATED_NUM_CLIENT);
-        assertThat(testTransaction.getIdBenificiair()).isEqualTo(UPDATED_ID_BENIFICIAIR);
+        assertThat(testTransaction.getNumBenificiair()).isEqualTo(UPDATED_NUM_BENIFICIAIR);
     }
 
     @Test

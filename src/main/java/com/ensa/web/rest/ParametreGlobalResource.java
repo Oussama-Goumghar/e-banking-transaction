@@ -2,6 +2,7 @@ package com.ensa.web.rest;
 
 import com.ensa.domain.ParametreGlobal;
 import com.ensa.repository.ParametreGlobalRepository;
+import com.ensa.service.ParametreGlobalService;
 import com.ensa.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -12,6 +13,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,15 +33,8 @@ public class ParametreGlobalResource {
 
     private static final String ENTITY_NAME = "transactionApiParametreGlobal";
 
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
-
-    private final ParametreGlobalRepository parametreGlobalRepository;
-
-    public ParametreGlobalResource(ParametreGlobalRepository parametreGlobalRepository) {
-        this.parametreGlobalRepository = parametreGlobalRepository;
-    }
-
+    @Autowired
+    ParametreGlobalService parametreGlobalService;
     /**
      * {@code POST  /parametre-globals} : Create a new parametreGlobal.
      *
@@ -48,17 +43,13 @@ public class ParametreGlobalResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/parametre-globals")
-    public ResponseEntity<ParametreGlobal> createParametreGlobal(@Valid @RequestBody ParametreGlobal parametreGlobal)
+    public int createParametreGlobal(@Valid @RequestBody ParametreGlobal parametreGlobal)
         throws URISyntaxException {
         log.debug("REST request to save ParametreGlobal : {}", parametreGlobal);
         if (parametreGlobal.getId() != null) {
             throw new BadRequestAlertException("A new parametreGlobal cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        ParametreGlobal result = parametreGlobalRepository.save(parametreGlobal);
-        return ResponseEntity
-            .created(new URI("/api/parametre-globals/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        return parametreGlobalService.createParametreGlobal(parametreGlobal);
     }
 
     /**
@@ -72,7 +63,7 @@ public class ParametreGlobalResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/parametre-globals/{id}")
-    public ResponseEntity<ParametreGlobal> updateParametreGlobal(
+    public int updateParametreGlobal(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody ParametreGlobal parametreGlobal
     ) throws URISyntaxException {
@@ -83,16 +74,7 @@ public class ParametreGlobalResource {
         if (!Objects.equals(id, parametreGlobal.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
-        if (!parametreGlobalRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
-        }
-
-        ParametreGlobal result = parametreGlobalRepository.save(parametreGlobal);
-        return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, parametreGlobal.getId().toString()))
-            .body(result);
+        return parametreGlobalService.updateParametreGlobal(id, parametreGlobal);
     }
 
     /**
@@ -107,7 +89,7 @@ public class ParametreGlobalResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/parametre-globals/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public ResponseEntity<ParametreGlobal> partialUpdateParametreGlobal(
+    public int partialUpdateParametreGlobal(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody ParametreGlobal parametreGlobal
     ) throws URISyntaxException {
@@ -118,29 +100,7 @@ public class ParametreGlobalResource {
         if (!Objects.equals(id, parametreGlobal.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
-        if (!parametreGlobalRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
-        }
-
-        Optional<ParametreGlobal> result = parametreGlobalRepository
-            .findById(parametreGlobal.getId())
-            .map(existingParametreGlobal -> {
-                if (parametreGlobal.getKey() != null) {
-                    existingParametreGlobal.setKey(parametreGlobal.getKey());
-                }
-                if (parametreGlobal.getValue() != null) {
-                    existingParametreGlobal.setValue(parametreGlobal.getValue());
-                }
-
-                return existingParametreGlobal;
-            })
-            .map(parametreGlobalRepository::save);
-
-        return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, parametreGlobal.getId().toString())
-        );
+        return parametreGlobalService.partialUpdateParametreGlobal(id, parametreGlobal);
     }
 
     /**
@@ -151,7 +111,7 @@ public class ParametreGlobalResource {
     @GetMapping("/parametre-globals")
     public List<ParametreGlobal> getAllParametreGlobals() {
         log.debug("REST request to get all ParametreGlobals");
-        return parametreGlobalRepository.findAll();
+        return parametreGlobalService.findParametreGlobalAll();
     }
 
     /**
@@ -163,7 +123,7 @@ public class ParametreGlobalResource {
     @GetMapping("/parametre-globals/{id}")
     public ResponseEntity<ParametreGlobal> getParametreGlobal(@PathVariable Long id) {
         log.debug("REST request to get ParametreGlobal : {}", id);
-        Optional<ParametreGlobal> parametreGlobal = parametreGlobalRepository.findById(id);
+        Optional<ParametreGlobal> parametreGlobal = parametreGlobalService.findParametreGlobalById(id);
         return ResponseUtil.wrapOrNotFound(parametreGlobal);
     }
 
@@ -174,12 +134,8 @@ public class ParametreGlobalResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/parametre-globals/{id}")
-    public ResponseEntity<Void> deleteParametreGlobal(@PathVariable Long id) {
+    public int deleteParametreGlobal(@PathVariable Long id) {
         log.debug("REST request to delete ParametreGlobal : {}", id);
-        parametreGlobalRepository.deleteById(id);
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-            .build();
+        return parametreGlobalService.deleteParametreGlobal(id);
     }
 }

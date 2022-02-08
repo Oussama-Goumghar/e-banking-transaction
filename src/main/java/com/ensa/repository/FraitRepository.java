@@ -13,4 +13,5 @@ public interface FraitRepository extends JpaRepository<Frait, Long> {
     Frait findFraitByType(String type);
 
     Frait findFraitById(Long id);
+
 }

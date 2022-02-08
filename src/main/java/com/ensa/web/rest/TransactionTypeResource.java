@@ -2,6 +2,7 @@ package com.ensa.web.rest;
 
 import com.ensa.domain.TransactionType;
 import com.ensa.repository.TransactionTypeRepository;
+import com.ensa.service.TransactionTypeService;
 import com.ensa.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -12,6 +13,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,15 +33,8 @@ public class TransactionTypeResource {
 
     private static final String ENTITY_NAME = "transactionApiTransactionType";
 
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
-
-    private final TransactionTypeRepository transactionTypeRepository;
-
-    public TransactionTypeResource(TransactionTypeRepository transactionTypeRepository) {
-        this.transactionTypeRepository = transactionTypeRepository;
-    }
-
+    @Autowired
+    TransactionTypeService transactionTypeService;
     /**
      * {@code POST  /transaction-types} : Create a new transactionType.
      *
@@ -48,17 +43,13 @@ public class TransactionTypeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/transaction-types")
-    public ResponseEntity<TransactionType> createTransactionType(@Valid @RequestBody TransactionType transactionType)
+    public int createTransactionType(@Valid @RequestBody TransactionType transactionType)
         throws URISyntaxException {
         log.debug("REST request to save TransactionType : {}", transactionType);
         if (transactionType.getId() != null) {
             throw new BadRequestAlertException("A new transactionType cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        TransactionType result = transactionTypeRepository.save(transactionType);
-        return ResponseEntity
-            .created(new URI("/api/transaction-types/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        return transactionTypeService.createTransactionType(transactionType);
     }
 
     /**
@@ -72,7 +63,7 @@ public class TransactionTypeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/transaction-types/{id}")
-    public ResponseEntity<TransactionType> updateTransactionType(
+    public int updateTransactionType(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody TransactionType transactionType
     ) throws URISyntaxException {
@@ -84,15 +75,7 @@ public class TransactionTypeResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        if (!transactionTypeRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
-        }
-
-        TransactionType result = transactionTypeRepository.save(transactionType);
-        return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, transactionType.getId().toString()))
-            .body(result);
+        return transactionTypeService.updateTransactionType(id, transactionType);
     }
 
     /**
@@ -107,7 +90,7 @@ public class TransactionTypeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/transaction-types/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public ResponseEntity<TransactionType> partialUpdateTransactionType(
+    public int partialUpdateTransactionType(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody TransactionType transactionType
     ) throws URISyntaxException {
@@ -118,32 +101,7 @@ public class TransactionTypeResource {
         if (!Objects.equals(id, transactionType.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
-        if (!transactionTypeRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
-        }
-
-        Optional<TransactionType> result = transactionTypeRepository
-            .findById(transactionType.getId())
-            .map(existingTransactionType -> {
-                if (transactionType.getType() != null) {
-                    existingTransactionType.setType(transactionType.getType());
-                }
-                if (transactionType.getPlafondTransaction() != null) {
-                    existingTransactionType.setPlafondTransaction(transactionType.getPlafondTransaction());
-                }
-                if (transactionType.getPlafondAnnuel() != null) {
-                    existingTransactionType.setPlafondAnnuel(transactionType.getPlafondAnnuel());
-                }
-
-                return existingTransactionType;
-            })
-            .map(transactionTypeRepository::save);
-
-        return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, transactionType.getId().toString())
-        );
+        return transactionTypeService.partialUpdateTransactionType(id, transactionType);
     }
 
     /**
@@ -154,7 +112,7 @@ public class TransactionTypeResource {
     @GetMapping("/transaction-types")
     public List<TransactionType> getAllTransactionTypes() {
         log.debug("REST request to get all TransactionTypes");
-        return transactionTypeRepository.findAll();
+        return transactionTypeService.findTransactionTypeAll();
     }
 
     /**
@@ -166,7 +124,7 @@ public class TransactionTypeResource {
     @GetMapping("/transaction-types/{id}")
     public ResponseEntity<TransactionType> getTransactionType(@PathVariable Long id) {
         log.debug("REST request to get TransactionType : {}", id);
-        Optional<TransactionType> transactionType = transactionTypeRepository.findById(id);
+        Optional<TransactionType> transactionType = transactionTypeService.findTransactionTypeById(id);
         return ResponseUtil.wrapOrNotFound(transactionType);
     }
 
@@ -177,12 +135,8 @@ public class TransactionTypeResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/transaction-types/{id}")
-    public ResponseEntity<Void> deleteTransactionType(@PathVariable Long id) {
+    public int deleteTransactionType(@PathVariable Long id) {
         log.debug("REST request to delete TransactionType : {}", id);
-        transactionTypeRepository.deleteById(id);
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-            .build();
+        return transactionTypeService.deleteTransactionType(id);
     }
 }

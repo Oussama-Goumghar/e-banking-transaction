@@ -2,6 +2,7 @@ package com.ensa.web.rest;
 
 import com.ensa.domain.Motif;
 import com.ensa.repository.MotifRepository;
+import com.ensa.service.MotifService;
 import com.ensa.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -12,6 +13,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,14 +33,8 @@ public class MotifResource {
 
     private static final String ENTITY_NAME = "transactionApiMotif";
 
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
-
-    private final MotifRepository motifRepository;
-
-    public MotifResource(MotifRepository motifRepository) {
-        this.motifRepository = motifRepository;
-    }
+    @Autowired
+    MotifService motifService;
 
     /**
      * {@code POST  /motifs} : Create a new motif.
@@ -48,16 +44,12 @@ public class MotifResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/motifs")
-    public ResponseEntity<Motif> createMotif(@Valid @RequestBody Motif motif) throws URISyntaxException {
+    public int createMotif(@Valid @RequestBody Motif motif) throws URISyntaxException {
         log.debug("REST request to save Motif : {}", motif);
         if (motif.getId() != null) {
             throw new BadRequestAlertException("A new motif cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Motif result = motifRepository.save(motif);
-        return ResponseEntity
-            .created(new URI("/api/motifs/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        return motifService.createMotif(motif);
     }
 
     /**
@@ -71,7 +63,7 @@ public class MotifResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/motifs/{id}")
-    public ResponseEntity<Motif> updateMotif(@PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody Motif motif)
+    public int updateMotif(@PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody Motif motif)
         throws URISyntaxException {
         log.debug("REST request to update Motif : {}, {}", id, motif);
         if (motif.getId() == null) {
@@ -80,16 +72,7 @@ public class MotifResource {
         if (!Objects.equals(id, motif.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
-        if (!motifRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
-        }
-
-        Motif result = motifRepository.save(motif);
-        return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, motif.getId().toString()))
-            .body(result);
+        return motifService.updateMotif(id, motif);
     }
 
     /**
@@ -104,7 +87,7 @@ public class MotifResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/motifs/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public ResponseEntity<Motif> partialUpdateMotif(
+    public int partialUpdateMotif(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody Motif motif
     ) throws URISyntaxException {
@@ -115,26 +98,7 @@ public class MotifResource {
         if (!Objects.equals(id, motif.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
-        if (!motifRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
-        }
-
-        Optional<Motif> result = motifRepository
-            .findById(motif.getId())
-            .map(existingMotif -> {
-                if (motif.getLibelle() != null) {
-                    existingMotif.setLibelle(motif.getLibelle());
-                }
-
-                return existingMotif;
-            })
-            .map(motifRepository::save);
-
-        return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, motif.getId().toString())
-        );
+        return motifService.partialUpdateMotif(id, motif);
     }
 
     /**
@@ -145,7 +109,7 @@ public class MotifResource {
     @GetMapping("/motifs")
     public List<Motif> getAllMotifs() {
         log.debug("REST request to get all Motifs");
-        return motifRepository.findAll();
+        return motifService.findMotifAll();
     }
 
     /**
@@ -157,7 +121,7 @@ public class MotifResource {
     @GetMapping("/motifs/{id}")
     public ResponseEntity<Motif> getMotif(@PathVariable Long id) {
         log.debug("REST request to get Motif : {}", id);
-        Optional<Motif> motif = motifRepository.findById(id);
+        Optional<Motif> motif = motifService.findMotifById(id);
         return ResponseUtil.wrapOrNotFound(motif);
     }
 
@@ -168,12 +132,8 @@ public class MotifResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/motifs/{id}")
-    public ResponseEntity<Void> deleteMotif(@PathVariable Long id) {
+    public int deleteMotif(@PathVariable Long id) {
         log.debug("REST request to delete Motif : {}", id);
-        motifRepository.deleteById(id);
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-            .build();
+        return motifService.deleteMotif(id);
     }
 }

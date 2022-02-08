@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TransactionService {
-    int createTransaction(Transaction transaction, Long motifId, Long transactionTypeId, Long fraitId);
+    int createTransaction(Transaction transaction, String motifLibelle, String transactionType, String fraitType);
 
     int deleteTransaction(Long id);
 
