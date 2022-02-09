@@ -6,6 +6,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * A Transaction.
@@ -17,7 +19,6 @@ public class Transaction implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -47,8 +48,14 @@ public class Transaction implements Serializable {
     @Column(name = "num_client")
     private String numClient;
 
-    @Column(name = "num_benificiair")
-    private String numBenificiair;
+    @Column(name = "nom_benificiair")
+    private String nomBenificiair;
+
+    @Column(name = "prenom_benificiair")
+    private String prenomBenificiair;
+
+    @Column(name = "telephone_benificiair")
+    private String telephoneBenificiair;
 
     @ManyToOne
     private TransactionType transactionType;
@@ -178,17 +185,37 @@ public class Transaction implements Serializable {
         this.numClient = numClient;
     }
 
-    public String getNumBenificiair() {
-        return this.numBenificiair;
+    public String getNomBenificiair() {
+        return this.nomBenificiair;
     }
-
-    public Transaction numBenificiair(String numBenificiair) {
-        this.setNumBenificiair(numBenificiair);
+    public Transaction nomBenificiair(String nomBenificiair) {
+        this.setNomBenificiair(nomBenificiair);
         return this;
     }
+    public void setNomBenificiair(String nomBenificiair) {
+        this.nomBenificiair = nomBenificiair;
+    }
 
-    public void setNumBenificiair(String numBenificiair) {
-        this.numBenificiair = numBenificiair;
+    public String getPrenomBenificiair() {
+        return this.prenomBenificiair;
+    }
+    public Transaction prenomBenificiair(String prenomBenificiair) {
+        this.setPrenomBenificiair(prenomBenificiair);
+        return this;
+    }
+    public void setPrenomBenificiair(String prenomBenificiair) {
+        this.prenomBenificiair = prenomBenificiair;
+    }
+
+    public String getTelephoneBenificiair() {
+        return this.telephoneBenificiair;
+    }
+    public Transaction telephoneBenificiair(String telephoneBenificiair) {
+        this.setTelephoneBenificiair(telephoneBenificiair);
+        return this;
+    }
+    public void setTelephoneBenificiair(String telephoneBenificiair) {
+        this.telephoneBenificiair = telephoneBenificiair;
     }
 
     public TransactionType getTransactionType() {
@@ -262,7 +289,9 @@ public class Transaction implements Serializable {
             ", notify='" + getNotify() + "'" +
             ", loginAgent=" + getLoginAgent() +
             ", numClient=" + getNumClient() +
-            ", numBenificiair=" + getNumBenificiair() +
+            ", nomBenificiair=" + getNomBenificiair() +
+            ", prenomBenificiair=" + getPrenomBenificiair() +
+            ", telephoneBenificiair=" + getTelephoneBenificiair() +
             "}";
     }
 }

@@ -55,8 +55,14 @@ class TransactionResourceIT {
     private static final String DEFAULT_NUM_CLIENT = "WWWWWWW";
     private static final String UPDATED_NUM_CLIENT = "VVVVVVV";
 
-    private static final String DEFAULT_NUM_BENIFICIAIR = "MMMMMM";
-    private static final String UPDATED_NUM_BENIFICIAIR = "FFFFFFF";
+    private static final String DEFAULT_NOM_BENIFICIAIR = "MMMMMM";
+    private static final String UPDATED_NOM_BENIFICIAIR = "FFFFFFF";
+
+    private static final String DEFAULT_PRENOM_BENIFICIAIR = "MMMMMM";
+    private static final String UPDATED_PRENOM_BENIFICIAIR = "FFFFFFF";
+
+    private static final String DEFAULT_TELEPHONE_BENIFICIAIR = "MMMMMM";
+    private static final String UPDATED_TELEPHONE_BENIFICIAIR = "FFFFFFF";
 
     private static final String ENTITY_API_URL = "/api/transactions";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -91,7 +97,9 @@ class TransactionResourceIT {
             .notify(DEFAULT_NOTIFY)
             .loginAgent(DEFAULT_LOGIN_AGENT)
             .numClient(DEFAULT_NUM_CLIENT)
-            .numBenificiair(DEFAULT_NUM_BENIFICIAIR);
+            .nomBenificiair(DEFAULT_NOM_BENIFICIAIR)
+            .prenomBenificiair(DEFAULT_PRENOM_BENIFICIAIR)
+            .telephoneBenificiair(DEFAULT_TELEPHONE_BENIFICIAIR);
         return transaction;
     }
 
@@ -111,7 +119,9 @@ class TransactionResourceIT {
             .notify(UPDATED_NOTIFY)
             .loginAgent(UPDATED_LOGIN_AGENT)
             .numClient(UPDATED_NUM_CLIENT)
-            .numBenificiair(UPDATED_NUM_BENIFICIAIR);
+            .nomBenificiair(UPDATED_NOM_BENIFICIAIR)
+            .prenomBenificiair(UPDATED_PRENOM_BENIFICIAIR)
+            .telephoneBenificiair(UPDATED_TELEPHONE_BENIFICIAIR);
         return transaction;
     }
 
@@ -141,7 +151,9 @@ class TransactionResourceIT {
         assertThat(testTransaction.getNotify()).isEqualTo(DEFAULT_NOTIFY);
         assertThat(testTransaction.getLoginAgent()).isEqualTo(DEFAULT_LOGIN_AGENT);
         assertThat(testTransaction.getNumClient()).isEqualTo(DEFAULT_NUM_CLIENT);
-        assertThat(testTransaction.getNumBenificiair()).isEqualTo(DEFAULT_NUM_BENIFICIAIR);
+        assertThat(testTransaction.getNomBenificiair()).isEqualTo(DEFAULT_NOM_BENIFICIAIR);
+        assertThat(testTransaction.getPrenomBenificiair()).isEqualTo(DEFAULT_PRENOM_BENIFICIAIR);
+        assertThat(testTransaction.getTelephoneBenificiair()).isEqualTo(DEFAULT_TELEPHONE_BENIFICIAIR);
     }
 
     @Test
@@ -182,7 +194,9 @@ class TransactionResourceIT {
             .andExpect(jsonPath("$.[*].notify").value(hasItem(DEFAULT_NOTIFY.booleanValue())))
             .andExpect(jsonPath("$.[*].loginAgent").value(hasItem(DEFAULT_LOGIN_AGENT)))
             .andExpect(jsonPath("$.[*].numClient").value(hasItem(DEFAULT_NUM_CLIENT)))
-            .andExpect(jsonPath("$.[*].numBenificiair").value(hasItem(DEFAULT_NUM_BENIFICIAIR)));
+            .andExpect(jsonPath("$.[*].nomBenificiair").value(hasItem(DEFAULT_NOM_BENIFICIAIR)))
+            .andExpect(jsonPath("$.[*].prenomBenificiair").value(hasItem(DEFAULT_PRENOM_BENIFICIAIR)))
+            .andExpect(jsonPath("$.[*].telephoneBenificiair").value(hasItem(DEFAULT_TELEPHONE_BENIFICIAIR)));
     }
 
     @Test
@@ -205,7 +219,9 @@ class TransactionResourceIT {
             .andExpect(jsonPath("$.notify").value(DEFAULT_NOTIFY.booleanValue()))
             .andExpect(jsonPath("$.loginAgent").value(DEFAULT_LOGIN_AGENT))
             .andExpect(jsonPath("$.numClient").value(DEFAULT_NUM_CLIENT))
-            .andExpect(jsonPath("$.numBenificiair").value(DEFAULT_NUM_BENIFICIAIR));
+            .andExpect(jsonPath("$.nomBenificiair").value(DEFAULT_NOM_BENIFICIAIR))
+            .andExpect(jsonPath("$.prenomBenificiair").value(DEFAULT_PRENOM_BENIFICIAIR))
+            .andExpect(jsonPath("$.telephoneBenificiair").value(DEFAULT_TELEPHONE_BENIFICIAIR));
     }
 
     @Test
@@ -236,7 +252,9 @@ class TransactionResourceIT {
             .notify(UPDATED_NOTIFY)
             .loginAgent(UPDATED_LOGIN_AGENT)
             .numClient(UPDATED_NUM_CLIENT)
-            .numBenificiair(UPDATED_NUM_BENIFICIAIR);
+            .nomBenificiair(UPDATED_NOM_BENIFICIAIR)
+            .prenomBenificiair(UPDATED_PRENOM_BENIFICIAIR)
+            .telephoneBenificiair(UPDATED_TELEPHONE_BENIFICIAIR);
 
         restTransactionMockMvc
             .perform(
@@ -258,7 +276,9 @@ class TransactionResourceIT {
         assertThat(testTransaction.getNotify()).isEqualTo(UPDATED_NOTIFY);
         assertThat(testTransaction.getLoginAgent()).isEqualTo(UPDATED_LOGIN_AGENT);
         assertThat(testTransaction.getNumClient()).isEqualTo(UPDATED_NUM_CLIENT);
-        assertThat(testTransaction.getNumBenificiair()).isEqualTo(UPDATED_NUM_BENIFICIAIR);
+        assertThat(testTransaction.getNomBenificiair()).isEqualTo(UPDATED_NOM_BENIFICIAIR);
+        assertThat(testTransaction.getPrenomBenificiair()).isEqualTo(UPDATED_PRENOM_BENIFICIAIR);
+        assertThat(testTransaction.getTelephoneBenificiair()).isEqualTo(UPDATED_TELEPHONE_BENIFICIAIR);
     }
 
     @Test
@@ -329,7 +349,7 @@ class TransactionResourceIT {
         Transaction partialUpdatedTransaction = new Transaction();
         partialUpdatedTransaction.setId(transaction.getId());
 
-        partialUpdatedTransaction.montant(UPDATED_MONTANT).numBenificiair(UPDATED_NUM_BENIFICIAIR);
+        partialUpdatedTransaction.montant(UPDATED_MONTANT).nomBenificiair(UPDATED_NOM_BENIFICIAIR);
 
         restTransactionMockMvc
             .perform(
@@ -351,7 +371,9 @@ class TransactionResourceIT {
         assertThat(testTransaction.getNotify()).isEqualTo(DEFAULT_NOTIFY);
         assertThat(testTransaction.getLoginAgent()).isEqualTo(DEFAULT_LOGIN_AGENT);
         assertThat(testTransaction.getNumClient()).isEqualTo(DEFAULT_NUM_CLIENT);
-        assertThat(testTransaction.getNumBenificiair()).isEqualTo(UPDATED_NUM_BENIFICIAIR);
+        assertThat(testTransaction.getNomBenificiair()).isEqualTo(UPDATED_NOM_BENIFICIAIR);
+        assertThat(testTransaction.getPrenomBenificiair()).isEqualTo(UPDATED_PRENOM_BENIFICIAIR);
+        assertThat(testTransaction.getTelephoneBenificiair()).isEqualTo(UPDATED_TELEPHONE_BENIFICIAIR);
     }
 
     @Test
@@ -375,7 +397,9 @@ class TransactionResourceIT {
             .notify(UPDATED_NOTIFY)
             .loginAgent(UPDATED_LOGIN_AGENT)
             .numClient(UPDATED_NUM_CLIENT)
-            .numBenificiair(UPDATED_NUM_BENIFICIAIR);
+            .nomBenificiair(UPDATED_NOM_BENIFICIAIR)
+            .prenomBenificiair(UPDATED_PRENOM_BENIFICIAIR)
+            .telephoneBenificiair(UPDATED_TELEPHONE_BENIFICIAIR);
 
         restTransactionMockMvc
             .perform(
@@ -397,7 +421,9 @@ class TransactionResourceIT {
         assertThat(testTransaction.getNotify()).isEqualTo(UPDATED_NOTIFY);
         assertThat(testTransaction.getLoginAgent()).isEqualTo(UPDATED_LOGIN_AGENT);
         assertThat(testTransaction.getNumClient()).isEqualTo(UPDATED_NUM_CLIENT);
-        assertThat(testTransaction.getNumBenificiair()).isEqualTo(UPDATED_NUM_BENIFICIAIR);
+        assertThat(testTransaction.getNomBenificiair()).isEqualTo(UPDATED_NOM_BENIFICIAIR);
+        assertThat(testTransaction.getPrenomBenificiair()).isEqualTo(UPDATED_PRENOM_BENIFICIAIR);
+        assertThat(testTransaction.getTelephoneBenificiair()).isEqualTo(UPDATED_TELEPHONE_BENIFICIAIR);
     }
 
     @Test

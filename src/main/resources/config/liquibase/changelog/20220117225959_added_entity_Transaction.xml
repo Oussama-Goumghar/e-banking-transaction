@@ -38,7 +38,13 @@
             <column name="num_client" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="num_benificiair" type="varchar(255)">
+            <column name="nom_benificiair" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="prenom_benificiair" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="telephone_benificiair" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="transaction_type_id" type="bigint">
@@ -79,7 +85,9 @@
             <column name="notify" type="boolean"/>
             <column name="login_agent" type="string"/>
             <column name="num_client" type="string"/>
-            <column name="num_benificiair" type="string"/>
+            <column name="nom_benificiair" type="string"/>
+            <column name="prenom_benificiair" type="string"/>
+            <column name="telephone_benificiair" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>
