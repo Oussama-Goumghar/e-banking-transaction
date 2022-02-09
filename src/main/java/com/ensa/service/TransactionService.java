@@ -8,6 +8,12 @@ import java.util.Optional;
 public interface TransactionService {
     int createTransaction(Transaction transaction, String motifLibelle, String transactionType, String fraitType);
 
+    int servirTransaction(String referenceTransaction);
+
+    int extournerTransaction(String referenceTransaction);
+
+    int restituerTransaction(String referenceTransaction);
+
     int deleteTransaction(Long id);
 
     Optional<Transaction> findTransactionById(Long id);

@@ -31,7 +31,7 @@ public class TransactionServiceImpl implements TransactionService {
     FraitRepository fraitRepository;
 
     @Override
-    public int createTransaction(Transaction transaction,  String motifLibelle, String transactionType, String fraitType) {
+    public int createTransaction(Transaction transaction, String motifLibelle, String transactionType, String fraitType) {
 
         Motif motifCheck = motifRepository.findMotifByLibelle(motifLibelle);
         TransactionType transactionTypeCheck = transactionTypeRepository.findTransactionTypeByType(transactionType);
@@ -41,10 +41,87 @@ public class TransactionServiceImpl implements TransactionService {
             transaction.setTransactionType(transactionTypeCheck);
             transaction.setFrait(fraitCheck);
             transaction.setMotif(motifCheck);
+            transaction.setStatus(TransactionStatus.ASERVIR.toString());
             transactionRepository.save(transaction);
             return 1;
         } else {
             return -1;
+        }
+    }
+
+    @Override
+    public int servirTransaction(String referenceTransaction) {
+        Transaction transactionCheck = transactionRepository.findTransactionByReference(referenceTransaction);
+        if (transactionCheck == null) {
+            return -1;
+        } else {
+            if (transactionCheck.getStatus().equals(TransactionStatus.SERVIE.toString())) {
+                return -2;
+            } else {
+                if (transactionCheck.getStatus().equals(TransactionStatus.BLOQUE.toString())) {
+                    return -3;
+                } else {
+                    if (transactionCheck.getStatus().equals(TransactionStatus.EXTOURNE.toString())) {
+                        return -4;
+                    } else {
+                        if (transactionCheck.getStatus().equals(TransactionStatus.RETITUER.toString())) {
+                            return -5;
+                        } else {
+                            transactionCheck.setStatus(TransactionStatus.SERVIE.toString());
+                            transactionRepository.save(transactionCheck);
+                            return 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public int extournerTransaction(String referenceTransaction) {
+        Transaction transactionCheck = transactionRepository.findTransactionByReference(referenceTransaction);
+        if (transactionCheck == null) {
+            return -1;
+        } else {
+            if (transactionCheck.getStatus().equals(TransactionStatus.EXTOURNE.toString())) {
+                return -2;
+            } else {
+                if (transactionCheck.getStatus().equals(TransactionStatus.BLOQUE.toString())) {
+                    return -3;
+                } else {
+                    if (transactionCheck.getStatus().equals(TransactionStatus.SERVIE.toString())) {
+                        return -4;
+                    } else {
+                        transactionCheck.setStatus(TransactionStatus.EXTOURNE.toString());
+                        transactionRepository.save(transactionCheck);
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public int restituerTransaction(String referenceTransaction) {
+        Transaction transactionCheck = transactionRepository.findTransactionByReference(referenceTransaction);
+        if (transactionCheck == null) {
+            return -1;
+        } else {
+            if (transactionCheck.getStatus().equals(TransactionStatus.RETITUER.toString())) {
+                return -2;
+            } else {
+                if (transactionCheck.getStatus().equals(TransactionStatus.BLOQUE.toString())) {
+                    return -3;
+                } else {
+                    if (transactionCheck.getStatus().equals(TransactionStatus.SERVIE.toString())) {
+                        return -4;
+                    } else {
+                        transactionCheck.setStatus(TransactionStatus.RETITUER.toString());
+                        transactionRepository.save(transactionCheck);
+                        return 1;
+                    }
+                }
+            }
         }
     }
 
@@ -56,7 +133,8 @@ public class TransactionServiceImpl implements TransactionService {
         } else {
             transactionRepository.deleteById(id);
             return 1;
-        }    }
+        }
+    }
 
     @Override
     public Optional<Transaction> findTransactionById(Long id) {

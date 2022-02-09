@@ -1,6 +1,7 @@
 package com.ensa.web.rest;
 
 import com.ensa.domain.Transaction;
+import com.ensa.domain.TransactionType;
 import com.ensa.service.TransactionService;
 import com.ensa.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.ResponseUtil;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +46,28 @@ public class TransactionResource {
         log.debug("REST request to save Transaction : {}", transaction);
         return transactionService.createTransaction(transaction, motifLibelle, transactionType, fraitType);
     }
+
+    @PatchMapping(value = "/transactions/servir/reference-transaction/{reference}")
+    public int servirTransaction(
+        @PathVariable(value = "reference", required = false) final String reference
+    ) throws URISyntaxException {
+        return transactionService.servirTransaction(reference);
+    }
+
+    @PatchMapping(value = "/transactions/restituer/reference-transaction/{reference}")
+    public int restituerTransaction(
+        @PathVariable(value = "reference", required = false) final String reference
+    ) throws URISyntaxException {
+        return transactionService.restituerTransaction(reference);
+    }
+
+    @PatchMapping(value = "/transactions/extourner/reference-transaction/{reference}")
+    public int extournerTransaction(
+        @PathVariable(value = "reference", required = false) final String reference
+    ) throws URISyntaxException {
+        return transactionService.extournerTransaction(reference);
+    }
+
 
 
     /**
