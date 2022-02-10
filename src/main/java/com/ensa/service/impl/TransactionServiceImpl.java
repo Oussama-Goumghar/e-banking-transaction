@@ -125,6 +125,11 @@ public class TransactionServiceImpl implements TransactionService {
         }
     }
 
+    @Override
+    public List<Transaction> blockTransaction(List<Transaction> transactionList) {
+        return null;
+    }
+
 
     @Override
     public int deleteTransaction(Long id) {

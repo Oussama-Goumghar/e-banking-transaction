@@ -13,4 +13,5 @@ import java.awt.*;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     Transaction findTransactionByReference(String reference);
+    Object findTransactionsByStatus(String status);
 }
