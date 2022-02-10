@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -127,16 +128,34 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<Transaction> blockTransaction(List<Transaction> transactionList) {
-        return null;
+        return transactionRepository.saveAll(
+            transactionList.stream()
+                .map(Transaction::getReference)
+                .filter(value -> value != null && !value.isEmpty())
+                .map(transactionRepository::findOneTransactionByReference)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .peek(transaction -> transaction.setStatus(TransactionStatus.BLOQUE.toString()))
+                .collect(Collectors.toList()));
     }
 
-
     @Override
-    public int deleteTransaction(Long id) {
+    public int deleteTransactionById(Long id) {
         if (!transactionRepository.existsById(id)) {
             return -1;
         } else {
             transactionRepository.deleteById(id);
+            return 1;
+        }
+    }
+
+    @Override
+    public int deleteTransactionByReference(String reference) {
+        Transaction transactionToDelete = transactionRepository.findTransactionByReference(reference);
+        if (transactionToDelete == null) {
+            return -1;
+        } else {
+            transactionRepository.delete(transactionToDelete);
             return 1;
         }
     }

@@ -4,6 +4,8 @@ import com.ensa.domain.Motif;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * Spring Data SQL repository for the Motif entity.
  */
@@ -11,6 +13,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MotifRepository extends JpaRepository<Motif, Long> {
     Motif findMotifByLibelle(String libelle);
+
+    Optional<Motif> findOneMotifByLibelle(String libelle);
 
     Motif findMotifById(Long id);
 }

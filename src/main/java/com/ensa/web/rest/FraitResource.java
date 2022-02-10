@@ -114,9 +114,13 @@ public class FraitResource {
      * @param id the id of the frait to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/fraits/{id}")
-    public int deleteFrait(@PathVariable Long id) {
-        log.debug("REST request to delete Frait : {}", id);
-        return fraitService.deleteFrait(id);
+    @DeleteMapping("/fraits/delete/id/{id}")
+    public int deleteFraitById(@PathVariable Long id) {
+        return fraitService.deleteFraitById(id);
+    }
+
+    @DeleteMapping("/fraits/delete/libelle/{libelle}")
+    public int deleteFrait(@PathVariable String libelle) {
+        return fraitService.deleteFraitByType(libelle);
     }
 }

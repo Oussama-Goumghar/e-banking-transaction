@@ -27,11 +27,22 @@ public class MotifServiceImpl implements MotifService {
     }
 
     @Override
-    public int updateMotif(Long id,Motif motif) {
+    public int updateMotif(Long id, Motif motif) {
         if (!repository.existsById(id)) {
             return -1;
         } else {
             repository.save(motif);
+            return 1;
+        }
+    }
+
+    @Override
+    public int updateMotif(String libelle, Motif motif) {
+        Motif motifToUpdate = repository.findMotifByLibelle(libelle);
+        if (motifToUpdate == null) {
+            return -1;
+        } else {
+            repository.delete(motifToUpdate);
             return 1;
         }
     }
@@ -55,11 +66,41 @@ public class MotifServiceImpl implements MotifService {
     }
 
     @Override
+    public int partialUpdateMotif(String libelle, Motif motif) {
+        Optional<Motif> motifToUpdate = repository.findOneMotifByLibelle(libelle);
+        if (motifToUpdate.isEmpty()) {
+            return -1;
+        } else {
+            repository.findOneMotifByLibelle(libelle)
+                .map(existingMotif -> {
+                    if (motif.getLibelle() != null) {
+                        existingMotif.setLibelle(motif.getLibelle());
+                    }
+
+                    return existingMotif;
+                })
+                .map(repository::save);
+            return 1;
+        }
+    }
+
+    @Override
     public int deleteMotif(Long id) {
         if (!repository.existsById(id)) {
             return -1;
         } else {
             repository.deleteById(id);
+            return 1;
+        }
+    }
+
+    @Override
+    public int deleteMotif(String libelle) {
+        Motif motifToDelete = repository.findMotifByLibelle(libelle);
+        if (motifToDelete == null) {
+            return -1;
+        } else {
+            repository.delete(motifToDelete);
             return 1;
         }
     }

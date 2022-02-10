@@ -47,6 +47,11 @@ public class TransactionResource {
         return transactionService.createTransaction(transaction, motifLibelle, transactionType, fraitType);
     }
 
+    @PostMapping("/transactions/block")
+    public List<Transaction> blockTransaction(@Valid @RequestBody List<Transaction> transactions) throws URISyntaxException {
+        return transactionService.blockTransaction(transactions);
+    }
+
     @PatchMapping(value = "/transactions/servir/reference-transaction/{reference}")
     public int servirTransaction(
         @PathVariable(value = "reference", required = false) final String reference
@@ -100,9 +105,13 @@ public class TransactionResource {
      * @param id the id of the transaction to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/transactions/{id}")
-    public int deleteTransaction(@PathVariable Long id) {
-        log.debug("REST request to delete Transaction : {}", id);
-        return transactionService.deleteTransaction(id);
+    @DeleteMapping("/transactions/delete-by-id/{id}")
+    public int deleteTransactionById(@PathVariable Long id) {
+        return transactionService.deleteTransactionById(id);
+    }
+
+    @DeleteMapping("/transactions/delete-by-reference/{reference}")
+    public int deleteTransactionByReference(@PathVariable String reference) {
+        return transactionService.deleteTransactionByReference(reference);
     }
 }

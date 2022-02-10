@@ -6,6 +6,7 @@ import com.ensa.service.CommissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +18,7 @@ public class CommissionServiceImpl implements CommissionService {
 
     @Override
     public int createCommission(Commission commission) {
-        Commission commissionCheck = repository.findCommissionByDateRetraitAndIdAgent(commission.getDateRetrait(), commission.getIdAgent());
+        Commission commissionCheck = repository.findCommissionByDateRetraitAndIdAgent(commission.getDateRetrait(), commission.getNumAgent());
         if (commissionCheck == null) {
             repository.save(commission);
             return 1;
@@ -37,14 +38,50 @@ public class CommissionServiceImpl implements CommissionService {
     }
 
     @Override
+    public int updateCommission(String numClient, LocalDate dateRetrait, Commission commission) {
+        Commission commissionToUpdate = repository.findCommissionByDateRetraitAndIdAgent(dateRetrait,numClient);
+        if (commissionToUpdate == null) {
+            return -1;
+        } else {
+            repository.delete(commissionToUpdate);
+            return 1;
+        }
+    }
+
+    @Override
     public int partialUpdateCommission(Long id, Commission commission) {
         if (!repository.existsById(id)) {
             return -1;
         } else {
             repository.findById(id)
                 .map(existingCommission -> {
-                    if (commission.getIdAgent() != null) {
-                        existingCommission.setIdAgent(commission.getIdAgent());
+                    if (commission.getNumAgent() != null) {
+                        existingCommission.setNumAgent(commission.getNumAgent());
+                    }
+                    if (commission.getDateRetrait() != null) {
+                        existingCommission.setDateRetrait(commission.getDateRetrait());
+                    }
+                    if (commission.getValue() != null) {
+                        existingCommission.setValue(commission.getValue());
+                    }
+
+                    return existingCommission;
+                })
+                .map(repository::save);
+            return 1;
+        }
+    }
+
+    @Override
+    public int partialUpdateCommission(String numClient, LocalDate dateRetrait, Commission commission) {
+        Optional<Commission> commissionToUpdate = repository.findOneCommissionByDateRetraitAndIdAgent(dateRetrait,numClient);
+        if (commissionToUpdate.isEmpty()) {
+            return -1;
+        } else {
+            commissionToUpdate
+                .map(existingCommission -> {
+                    if (commission.getNumAgent() != null) {
+                        existingCommission.setNumAgent(commission.getNumAgent());
                     }
                     if (commission.getDateRetrait() != null) {
                         existingCommission.setDateRetrait(commission.getDateRetrait());
@@ -66,6 +103,17 @@ public class CommissionServiceImpl implements CommissionService {
             return -1;
         } else {
             repository.deleteById(id);
+            return 1;
+        }
+    }
+
+    @Override
+    public int deleteCommission(String numClient, LocalDate dateRetrait) {
+        Commission commissionToDelete = repository.findCommissionByDateRetraitAndIdAgent(dateRetrait,numClient);
+        if (commissionToDelete == null) {
+            return -1;
+        } else {
+            repository.delete(commissionToDelete);
             return 1;
         }
     }

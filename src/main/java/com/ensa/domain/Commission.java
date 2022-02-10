@@ -22,8 +22,8 @@ public class Commission implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "id_agent")
-    private Long idAgent;
+    @Column(name = "num_agent")
+    private String numAgent;
 
     @Column(name = "date_retrait")
     private LocalDate dateRetrait;
@@ -46,17 +46,17 @@ public class Commission implements Serializable {
         this.id = id;
     }
 
-    public Long getIdAgent() {
-        return this.idAgent;
+    public String getNumAgent() {
+        return this.numAgent;
     }
 
-    public Commission idAgent(Long idAgent) {
-        this.setIdAgent(idAgent);
+    public Commission numAgent(String numAgent) {
+        this.setNumAgent(numAgent);
         return this;
     }
 
-    public void setIdAgent(Long idAgent) {
-        this.idAgent = idAgent;
+    public void setNumAgent(String numAgent) {
+        this.numAgent = numAgent;
     }
 
     public LocalDate getDateRetrait() {
@@ -109,7 +109,7 @@ public class Commission implements Serializable {
     public String toString() {
         return "Commission{" +
             "id=" + getId() +
-            ", idAgent=" + getIdAgent() +
+            ", numAgent=" + getNumAgent() +
             ", dateRetrait='" + getDateRetrait() + "'" +
             ", value=" + getValue() +
             "}";

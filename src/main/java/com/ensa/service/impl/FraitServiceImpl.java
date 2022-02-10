@@ -36,6 +36,17 @@ public class FraitServiceImpl implements FraitService {
     }
 
     @Override
+    public int updateFrait(String type, Frait frait) {
+        Frait fraitToUpdate = repository.findFraitByType(type);
+        if (fraitToUpdate == null) {
+            return -1;
+        } else {
+            repository.save(fraitToUpdate);
+            return 1;
+        }
+    }
+
+    @Override
     public int partialUpdateFrait(Long id, Frait frait) {
         if (!repository.existsById(id)) {
             return -1;
@@ -56,11 +67,43 @@ public class FraitServiceImpl implements FraitService {
     }
 
     @Override
-    public int deleteFrait(Long id) {
+    public int partialUpdateFrait(String type, Frait frait) {
+        Optional<Frait> fraitToUpdate = repository.findOneFraitByType(type);
+        if (fraitToUpdate.isEmpty()) {
+            return -1;
+        } else {
+            fraitToUpdate
+                .map(existingFrait -> {
+                    if (frait.getType() != null) {
+                        existingFrait.setType(frait.getType());
+                    }
+                    if (frait.getMontant() != null) {
+                        existingFrait.setMontant(frait.getMontant());
+                    }
+
+                    return existingFrait;
+                }).map(repository::save);
+            return 1;
+        }
+    }
+
+    @Override
+    public int deleteFraitById(Long id) {
         if (!repository.existsById(id)) {
             return -1;
         } else {
             repository.deleteById(id);
+            return 1;
+        }
+    }
+
+    @Override
+    public int deleteFraitByType(String type) {
+        Frait fraitToDelete = repository.findFraitByType(type);
+        if (fraitToDelete == null) {
+            return -1;
+        } else {
+            repository.delete(fraitToDelete);
             return 1;
         }
     }

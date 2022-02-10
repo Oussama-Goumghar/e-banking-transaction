@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * Spring Data SQL repository for the Commission entity.
@@ -13,5 +14,7 @@ import java.util.Date;
 @SuppressWarnings("unused")
 @Repository
 public interface CommissionRepository extends JpaRepository<Commission, Long> {
-    Commission findCommissionByDateRetraitAndIdAgent(LocalDate dateRetrait, Long idAgent);
+    Commission findCommissionByDateRetraitAndIdAgent(LocalDate dateRetrait, String numeroAgent);
+
+    Optional<Commission> findOneCommissionByDateRetraitAndIdAgent(LocalDate dateRetrait, String numeroAgent);
 }
