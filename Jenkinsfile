@@ -56,9 +56,16 @@ pipeline {
 
         stage('publish docker') {
             steps {
-                sh "./mvnw -ntp -Pprod verify jib:build -Djib.to.image=brahimafa/transactionapi"
+        // khasni nzid l tag k image dyal docker
+	        sh "./mvnw -ntp -Pprod verify jib:build -Djib.to.image=brahimafa/transactionapi"
             }
         }
+	stage('publish docker') {
+            steps {
+                sh "kubectl set image deployment/transactionapi transactionapi-app=brahimafa/transactionapi -n demo"
+            }
+        }
+
     }
 }
 
