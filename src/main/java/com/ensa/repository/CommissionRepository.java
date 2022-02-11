@@ -14,7 +14,7 @@ import java.util.Optional;
 @SuppressWarnings("unused")
 @Repository
 public interface CommissionRepository extends JpaRepository<Commission, Long> {
-    Commission findCommissionByDateRetraitAndIdAgent(LocalDate dateRetrait, String numeroAgent);
+    Commission findCommissionByDateRetraitAndNumAgent(LocalDate dateRetrait, String numeroAgent);
 
-    Optional<Commission> findOneCommissionByDateRetraitAndIdAgent(LocalDate dateRetrait, String numeroAgent);
+    Optional<Commission> findOneCommissionByDateRetraitAndNumAgent(LocalDate dateRetrait, String numeroAgent);
 }

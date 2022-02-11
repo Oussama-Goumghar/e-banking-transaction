@@ -18,7 +18,7 @@ public class CommissionServiceImpl implements CommissionService {
 
     @Override
     public int createCommission(Commission commission) {
-        Commission commissionCheck = repository.findCommissionByDateRetraitAndIdAgent(commission.getDateRetrait(), commission.getNumAgent());
+        Commission commissionCheck = repository.findCommissionByDateRetraitAndNumAgent(commission.getDateRetrait(), commission.getNumAgent());
         if (commissionCheck == null) {
             repository.save(commission);
             return 1;
@@ -39,7 +39,7 @@ public class CommissionServiceImpl implements CommissionService {
 
     @Override
     public int updateCommission(String numClient, LocalDate dateRetrait, Commission commission) {
-        Commission commissionToUpdate = repository.findCommissionByDateRetraitAndIdAgent(dateRetrait,numClient);
+        Commission commissionToUpdate = repository.findCommissionByDateRetraitAndNumAgent(dateRetrait,numClient);
         if (commissionToUpdate == null) {
             return -1;
         } else {
@@ -74,7 +74,7 @@ public class CommissionServiceImpl implements CommissionService {
 
     @Override
     public int partialUpdateCommission(String numClient, LocalDate dateRetrait, Commission commission) {
-        Optional<Commission> commissionToUpdate = repository.findOneCommissionByDateRetraitAndIdAgent(dateRetrait,numClient);
+        Optional<Commission> commissionToUpdate = repository.findOneCommissionByDateRetraitAndNumAgent(dateRetrait,numClient);
         if (commissionToUpdate.isEmpty()) {
             return -1;
         } else {
@@ -109,7 +109,7 @@ public class CommissionServiceImpl implements CommissionService {
 
     @Override
     public int deleteCommission(String numClient, LocalDate dateRetrait) {
-        Commission commissionToDelete = repository.findCommissionByDateRetraitAndIdAgent(dateRetrait,numClient);
+        Commission commissionToDelete = repository.findCommissionByDateRetraitAndNumAgent(dateRetrait,numClient);
         if (commissionToDelete == null) {
             return -1;
         } else {
