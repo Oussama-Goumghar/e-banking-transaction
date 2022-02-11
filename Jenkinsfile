@@ -60,9 +60,9 @@ pipeline {
 	        sh "./mvnw -ntp -Pprod verify jib:build -Djib.to.image=brahimafa/transactionapi"
             }
         }
-	stage('K8S deployment') {
+	stage('K8S rollout') {
             steps {
-                sh "kubectl set image deployment/transactionapi transactionapi-app=brahimafa/transactionapi -n demo"
+                sh "kubectl rollout restart deployment/transactionapi -n demo"
             }
         }
 
