@@ -43,7 +43,7 @@ public class CommissionServiceImpl implements CommissionService {
         if (commissionToUpdate == null) {
             return -1;
         } else {
-            repository.delete(commissionToUpdate);
+            repository.save(commission);
             return 1;
         }
     }

@@ -41,7 +41,7 @@ public class FraitServiceImpl implements FraitService {
         if (fraitToUpdate == null) {
             return -1;
         } else {
-            repository.save(fraitToUpdate);
+            repository.save(frait);
             return 1;
         }
     }

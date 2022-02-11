@@ -114,4 +114,15 @@ public class TransactionResource {
     public int deleteTransactionByReference(@PathVariable String reference) {
         return transactionService.deleteTransactionByReference(reference);
     }
+
+    @GetMapping("/transactions/test1")
+    public String test1() {
+        return "this the test 1";
+    }
+
+    @GetMapping("/transactions/test2")
+    public String test2() {
+        return "this the test 2 ALMERD";
+    }
+
 }

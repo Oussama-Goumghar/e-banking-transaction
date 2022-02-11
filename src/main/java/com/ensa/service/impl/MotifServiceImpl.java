@@ -42,7 +42,7 @@ public class MotifServiceImpl implements MotifService {
         if (motifToUpdate == null) {
             return -1;
         } else {
-            repository.delete(motifToUpdate);
+            repository.save(motif);
             return 1;
         }
     }
@@ -71,7 +71,7 @@ public class MotifServiceImpl implements MotifService {
         if (motifToUpdate.isEmpty()) {
             return -1;
         } else {
-            repository.findOneMotifByLibelle(libelle)
+           motifToUpdate
                 .map(existingMotif -> {
                     if (motif.getLibelle() != null) {
                         existingMotif.setLibelle(motif.getLibelle());
