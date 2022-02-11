@@ -60,7 +60,7 @@ pipeline {
 	        sh "./mvnw -ntp -Pprod verify jib:build -Djib.to.image=brahimafa/transactionapi"
             }
         }
-	stage('publish docker') {
+	stage('K8S deployment') {
             steps {
                 sh "kubectl set image deployment/transactionapi transactionapi-app=brahimafa/transactionapi -n demo"
             }
