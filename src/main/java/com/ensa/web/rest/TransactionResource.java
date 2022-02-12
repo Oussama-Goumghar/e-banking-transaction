@@ -119,19 +119,9 @@ public class TransactionResource {
         return transactionService.deleteTransactionByReference(reference);
     }
 
-    @GetMapping("/transactions/test1")
-    public String test1() {
-        return "this the test 78787";
-    }
-
-    @GetMapping("/transactions/test2")
-    public String test2() {
-        return "this the test 2 ALMERD";
-    }
-
-    @GetMapping("/transactions/test3")
-    public String testProxyAccount() {
-        return this.accountApiProxy.test();
+    @GetMapping("/transactions/reference/{reference}")
+    public Transaction findTransactionByReference(@PathVariable String reference) {
+        return this.transactionService.findTransactionByReference(reference);
     }
 
     @GetMapping("/transactions/blocked")

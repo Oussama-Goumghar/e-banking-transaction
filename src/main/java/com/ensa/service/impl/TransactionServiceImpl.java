@@ -166,6 +166,11 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public Transaction findTransactionByReference(String reference) {
+        return transactionRepository.findTransactionByReference(reference);
+    }
+
+    @Override
     public List<Transaction> findTransactionAll() {
         return transactionRepository.findAll();
     }

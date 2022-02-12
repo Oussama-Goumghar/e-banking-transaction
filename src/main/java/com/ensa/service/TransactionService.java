@@ -22,6 +22,8 @@ public interface TransactionService {
 
     Optional<Transaction> findTransactionById(Long id);
 
+    Transaction findTransactionByReference(String reference);
+
     List<Transaction> findTransactionAll();
 
     List<Transaction> findTransactionsBloqued();
