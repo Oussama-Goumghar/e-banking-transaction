@@ -4,6 +4,7 @@ import com.ensa.domain.Transaction;
 import com.ensa.domain.TransactionType;
 import com.ensa.service.TransactionService;
 import com.ensa.web.rest.errors.BadRequestAlertException;
+import com.ensa.web.rest.proxy.AccountApiProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class TransactionResource {
 
     @Autowired
     TransactionService transactionService;
+
+    @Autowired
+    AccountApiProxy accountApiProxy;
 
     /**
      * {@code POST  /transactions} : Create a new transaction.
@@ -125,4 +129,18 @@ public class TransactionResource {
         return "this the test 2 ALMERD";
     }
 
+    @GetMapping("/transactions/test3")
+    public String testProxyAccount() {
+        return this.accountApiProxy.test();
+    }
+
+    @GetMapping("/transactions/blocked")
+    public List<Transaction> transactionBlocked() {
+        return this.transactionService.findTransactionsBloqued();
+    }
+
+    @GetMapping("/transactions/not-blocked")
+    public List<Transaction> transactionNotBlocked() {
+        return this.transactionService.findTransactionsNotBloqued();
+    }
 }

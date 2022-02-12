@@ -23,4 +23,10 @@ public interface TransactionService {
     Optional<Transaction> findTransactionById(Long id);
 
     List<Transaction> findTransactionAll();
+
+    List<Transaction> findTransactionsBloqued();
+
+    List<Transaction> findTransactionsNotBloqued();
+
+
 }

@@ -170,4 +170,15 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionRepository.findAll();
     }
 
+    @Override
+    public List<Transaction> findTransactionsBloqued() {
+        return transactionRepository.findTransactionsByStatus(TransactionStatus.BLOQUE.name());
+    }
+
+    @Override
+    public List<Transaction> findTransactionsNotBloqued() {
+        return transactionRepository.findTransactionsByStatusNot(TransactionStatus.BLOQUE.name());
+    }
+
+
 }
