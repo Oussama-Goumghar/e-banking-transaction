@@ -33,20 +33,22 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public int createTransaction(Transaction transaction, String motifLibelle, String transactionType, String fraitType) {
-
-        Motif motifCheck = motifRepository.findMotifByLibelle(motifLibelle);
-        TransactionType transactionTypeCheck = transactionTypeRepository.findTransactionTypeByType(transactionType);
-        Frait fraitCheck = fraitRepository.findFraitByType(fraitType);
-
-        if (transactionTypeCheck != null && motifCheck != null && fraitCheck != null) {
-            transaction.setTransactionType(transactionTypeCheck);
-            transaction.setFrait(fraitCheck);
-            transaction.setMotif(motifCheck);
-            transaction.setStatus(TransactionStatus.ASERVIR.toString());
-            transactionRepository.save(transaction);
-            return 1;
-        } else {
+        if (transactionRepository.findTransactionByReference(transaction.getReference()) != null) {
             return -1;
+        } else {
+            Motif motifCheck = motifRepository.findMotifByLibelle(motifLibelle);
+            TransactionType transactionTypeCheck = transactionTypeRepository.findTransactionTypeByType(transactionType);
+            Frait fraitCheck = fraitRepository.findFraitByType(fraitType);
+            if (transactionTypeCheck == null && motifCheck == null && fraitCheck == null) {
+                return -2;
+            } else {
+                transaction.setTransactionType(transactionTypeCheck);
+                transaction.setFrait(fraitCheck);
+                transaction.setMotif(motifCheck);
+                transaction.setStatus(TransactionStatus.ASERVIR.toString());
+                transactionRepository.save(transaction);
+                return 1;
+            }
         }
     }
 
