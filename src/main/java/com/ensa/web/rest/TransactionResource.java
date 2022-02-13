@@ -1,9 +1,7 @@
 package com.ensa.web.rest;
 
 import com.ensa.domain.Transaction;
-import com.ensa.domain.TransactionType;
 import com.ensa.service.TransactionService;
-import com.ensa.web.rest.errors.BadRequestAlertException;
 import com.ensa.web.rest.proxy.AccountApiProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.ResponseUtil;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
@@ -78,7 +75,6 @@ public class TransactionResource {
     }
 
 
-
     /**
      * {@code GET  /transactions} : get all the transactions.
      *
@@ -132,5 +128,10 @@ public class TransactionResource {
     @GetMapping("/transactions/not-blocked")
     public List<Transaction> transactionNotBlocked() {
         return this.transactionService.findTransactionsNotBloqued();
+    }
+
+    @GetMapping("/transactions/test")
+    public String test() {
+        return accountApiProxy.test();
     }
 }
