@@ -53,6 +53,11 @@ public class TransactionResource {
         return transactionService.blockTransaction(transactions);
     }
 
+    @PostMapping("/transactions/unblock")
+    public List<Transaction> unblockTransaction(@Valid @RequestBody List<Transaction> transactions) {
+        return transactionService.deBlockTransaction(transactions);
+    }
+
     @PatchMapping(value = "/transactions/servir/reference-transaction/{reference}")
     public int servirTransaction(
         @PathVariable(value = "reference", required = false) final String reference
@@ -130,8 +135,4 @@ public class TransactionResource {
         return this.transactionService.findTransactionsNotBloqued();
     }
 
-    @GetMapping("/transactions/test")
-    public String test() {
-        return accountApiProxy.test();
-    }
 }

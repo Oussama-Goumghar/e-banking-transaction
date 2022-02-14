@@ -142,6 +142,20 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public List<Transaction> deBlockTransaction(List<Transaction> transactionList) {
+        return transactionRepository.saveAll(
+            transactionList.stream()
+                .map(Transaction::getReference)
+                .filter(value -> value != null && !value.isEmpty())
+                .map(transactionRepository::findOneTransactionByReference)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .peek(transaction -> transaction.setStatus(TransactionStatus.ASERVIR.toString()))
+                .collect(Collectors.toList()));
+    }
+
+
+    @Override
     public int deleteTransactionById(Long id) {
         if (!transactionRepository.existsById(id)) {
             return -1;

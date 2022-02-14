@@ -16,6 +16,8 @@ public interface TransactionService {
 
     List<Transaction> blockTransaction(List<Transaction> transactionList);
 
+    List<Transaction> deBlockTransaction(List<Transaction> transactionList);
+
     int deleteTransactionById(Long id);
 
     int deleteTransactionByReference(String reference);
