@@ -12,6 +12,7 @@ import com.ensa.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,20 +33,21 @@ public class TransactionServiceImpl implements TransactionService {
     FraitRepository fraitRepository;
 
     @Override
-    public int createTransaction(Transaction transaction, String motifLibelle, String transactionType, String fraitType) {
+    public int createTransaction(Transaction transaction, String transactionType, String fraitType) {
         if (transactionRepository.findTransactionByReference(transaction.getReference()) != null) {
             return -1;
         } else {
-            Motif motifCheck = motifRepository.findMotifByLibelle(motifLibelle);
+            Motif motifCheck = motifRepository.findMotifByLibelle("motif 1");
             TransactionType transactionTypeCheck = transactionTypeRepository.findTransactionTypeByType(transactionType);
             Frait fraitCheck = fraitRepository.findFraitByType(fraitType);
-            if (transactionTypeCheck == null && motifCheck == null && fraitCheck == null) {
+            if (transactionTypeCheck == null  && fraitCheck == null) {
                 return -2;
             } else {
                 transaction.setTransactionType(transactionTypeCheck);
                 transaction.setFrait(fraitCheck);
                 transaction.setMotif(motifCheck);
                 transaction.setStatus(TransactionStatus.ASERVIR.toString());
+                transaction.setDateEmission(LocalDate.now());
                 transactionRepository.save(transaction);
                 return 1;
             }
@@ -70,6 +72,9 @@ public class TransactionServiceImpl implements TransactionService {
                         if (transactionCheck.getStatus().equals(TransactionStatus.RETITUER.toString())) {
                             return -5;
                         } else {
+                            TransactionType transactionType = transactionCheck.getTransactionType();
+                            Frait frait = transactionCheck.getFrait();
+
                             transactionCheck.setStatus(TransactionStatus.SERVIE.toString());
                             transactionRepository.save(transactionCheck);
                             return 1;

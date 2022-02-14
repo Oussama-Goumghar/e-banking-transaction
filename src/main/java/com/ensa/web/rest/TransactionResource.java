@@ -39,13 +39,11 @@ public class TransactionResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new transaction, or with status {@code 400 (Bad Request)} if the transaction has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/transactions/motif/{motifLibelle}/transactionType/{transactionType}/fraitType/{fraitType}")
+    @PostMapping("/transactions/transactionType/{transactionType}/fraitType/{fraitType}")
     public int createTransaction(@Valid @RequestBody Transaction transaction,
-                                 @PathVariable(value = "motifLibelle", required = false) final String motifLibelle,
                                  @PathVariable(value = "transactionType", required = false) final String transactionType,
-                                 @PathVariable(value = "fraitType", required = false) final String fraitType) throws URISyntaxException {
-        log.debug("REST request to save Transaction : {}", transaction);
-        return transactionService.createTransaction(transaction, motifLibelle, transactionType, fraitType);
+                                 @PathVariable(value = "fraitType", required = false) final String fraitType) {
+        return transactionService.createTransaction(transaction, transactionType, fraitType);
     }
 
     @PostMapping("/transactions/block")
