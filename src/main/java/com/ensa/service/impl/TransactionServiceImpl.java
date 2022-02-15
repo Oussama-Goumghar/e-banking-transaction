@@ -9,7 +9,7 @@ import com.ensa.repository.MotifRepository;
 import com.ensa.repository.TransactionRepository;
 import com.ensa.repository.TransactionTypeRepository;
 import com.ensa.service.TransactionService;
-import com.ensa.web.rest.proxy.AccountApiProxy;
+import com.ensa.service.proxy.AccountApiProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

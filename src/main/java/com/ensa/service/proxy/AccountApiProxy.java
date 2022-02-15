@@ -1,4 +1,4 @@
-package com.ensa.web.rest.proxy;
+package com.ensa.service.proxy;
 
 
 import org.springframework.cloud.openfeign.FeignClient;

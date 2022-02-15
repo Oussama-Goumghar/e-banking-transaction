@@ -2,7 +2,6 @@ package com.ensa.web.rest;
 
 import com.ensa.domain.Transaction;
 import com.ensa.service.TransactionService;
-import com.ensa.web.rest.proxy.AccountApiProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +28,6 @@ public class TransactionResource {
     @Autowired
     TransactionService transactionService;
 
-    @Autowired
-    AccountApiProxy accountApiProxy;
 
     /**
      * {@code POST  /transactions} : Create a new transaction.
