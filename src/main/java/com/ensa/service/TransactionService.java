@@ -8,13 +8,19 @@ import java.util.Optional;
 public interface TransactionService {
     int createTransaction(Transaction transaction, String transactionType, String fraitType);
 
-    int servirTransactionCompte(String referenceTransaction,String numBenificiare);
+    int servirTransactionCompte(String referenceTransaction, String numBenificiare);
 
     int servirTransactionEspece(String referenceTransaction);
 
-    int extournerTransaction(String referenceTransaction);
+    int extournerTransactionEspece(String referenceTransaction);
 
-    int restituerTransaction(String referenceTransaction);
+    int extournerTransactionCompte(String referenceTransaction);
+
+    int restituerTransactionEspece(String referenceTransaction);
+
+    int restituerTransactionCompte(String referenceTransaction);
+
+
 
     List<Transaction> blockTransaction(List<Transaction> transactionList);
 

@@ -165,7 +165,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public int extournerTransaction(String referenceTransaction) {
+    public int extournerTransactionEspece(String referenceTransaction) {
         Transaction transactionCheck = transactionRepository.findTransactionByReference(referenceTransaction);
         if (transactionCheck == null) {
             return -1;
@@ -179,9 +179,12 @@ public class TransactionServiceImpl implements TransactionService {
                     if (transactionCheck.getStatus().equals(TransactionStatus.SERVIE.toString())) {
                         return -4;
                     } else {
-                        transactionCheck.setStatus(TransactionStatus.EXTOURNE.toString());
-                        transactionRepository.save(transactionCheck);
-                        return 1;
+                        int res = accountApiProxy2.debitAccountAgent(transactionCheck.getLoginAgent(), transactionCheck.getMontant());
+                        if (res==1) {
+                            transactionCheck.setStatus(TransactionStatus.EXTOURNE.toString());
+                            transactionRepository.save(transactionCheck);
+                            return 1;
+                        } else return -5;
                     }
                 }
             }
@@ -189,7 +192,34 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public int restituerTransaction(String referenceTransaction) {
+    public int extournerTransactionCompte(String referenceTransaction) {
+        Transaction transactionCheck = transactionRepository.findTransactionByReference(referenceTransaction);
+        if (transactionCheck == null) {
+            return -1;
+        } else {
+            if (transactionCheck.getStatus().equals(TransactionStatus.EXTOURNE.toString())) {
+                return -2;
+            } else {
+                if (transactionCheck.getStatus().equals(TransactionStatus.BLOQUE.toString())) {
+                    return -3;
+                } else {
+                    if (transactionCheck.getStatus().equals(TransactionStatus.SERVIE.toString())) {
+                        return -4;
+                    } else {
+                        int res = accountApiProxy2.crediteCompteClient(transactionCheck.getNumClient(), transactionCheck.getMontant());
+                        if (res==1) {
+                            transactionCheck.setStatus(TransactionStatus.EXTOURNE.toString());
+                            transactionRepository.save(transactionCheck);
+                            return 1;
+                        } else return -5;
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public int restituerTransactionEspece(String referenceTransaction) {
         Transaction transactionCheck = transactionRepository.findTransactionByReference(referenceTransaction);
         if (transactionCheck == null) {
             return -1;
@@ -203,9 +233,39 @@ public class TransactionServiceImpl implements TransactionService {
                     if (transactionCheck.getStatus().equals(TransactionStatus.SERVIE.toString())) {
                         return -4;
                     } else {
-                        transactionCheck.setStatus(TransactionStatus.RETITUER.toString());
-                        transactionRepository.save(transactionCheck);
-                        return 1;
+                        int res = accountApiProxy2.debitAccountAgent(transactionCheck.getLoginAgent(), transactionCheck.getMontant());
+                        if (res==1) {
+                            transactionCheck.setStatus(TransactionStatus.RETITUER.toString());
+                            transactionRepository.save(transactionCheck);
+                            return 1;
+                        } else return -5;
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public int restituerTransactionCompte(String referenceTransaction) {
+        Transaction transactionCheck = transactionRepository.findTransactionByReference(referenceTransaction);
+        if (transactionCheck == null) {
+            return -1;
+        } else {
+            if (transactionCheck.getStatus().equals(TransactionStatus.RETITUER.toString())) {
+                return -2;
+            } else {
+                if (transactionCheck.getStatus().equals(TransactionStatus.BLOQUE.toString())) {
+                    return -3;
+                } else {
+                    if (transactionCheck.getStatus().equals(TransactionStatus.SERVIE.toString())) {
+                        return -4;
+                    } else {
+                        int res = accountApiProxy2.crediteCompteClient(transactionCheck.getNumClient(), transactionCheck.getMontant());
+                        if (res==1) {
+                            transactionCheck.setStatus(TransactionStatus.RETITUER.toString());
+                            transactionRepository.save(transactionCheck);
+                            return 1;
+                        } else return -5;
                     }
                 }
             }

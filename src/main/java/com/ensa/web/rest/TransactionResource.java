@@ -61,18 +61,31 @@ public class TransactionResource {
         return transactionService.servirTransactionCompte(reference,numBenificiair);
     }
 
-    @PatchMapping(value = "/transactions/restituer/reference-transaction/{reference}")
-    public int restituerTransaction(
+    @PatchMapping(value = "/transactions/restituer-espece/reference-transaction/{reference}")
+    public int restituerTransactionEspece(
         @PathVariable(value = "reference", required = false) final String reference
     ) throws URISyntaxException {
-        return transactionService.restituerTransaction(reference);
+        return transactionService.restituerTransactionEspece(reference);
     }
 
-    @PatchMapping(value = "/transactions/extourner/reference-transaction/{reference}")
-    public int extournerTransaction(
+    @PatchMapping(value = "/transactions/restituer-compte/reference-transaction/{reference}")
+    public int restituerTransactionCompte(
         @PathVariable(value = "reference", required = false) final String reference
     ) throws URISyntaxException {
-        return transactionService.extournerTransaction(reference);
+        return transactionService.restituerTransactionCompte(reference);
+    }
+
+    @PatchMapping(value = "/transactions/extourner-espece/reference-transaction/{reference}")
+    public int extournerTransactionEspece(
+        @PathVariable(value = "reference", required = false) final String reference
+    ) throws URISyntaxException {
+        return transactionService.extournerTransactionEspece(reference);
+    }
+    @PatchMapping(value = "/transactions/extourner-compte/reference-transaction/{reference}")
+    public int extournerTransactionCompte(
+        @PathVariable(value = "reference", required = false) final String reference
+    ) throws URISyntaxException {
+        return transactionService.extournerTransactionCompte(reference);
     }
 
 
