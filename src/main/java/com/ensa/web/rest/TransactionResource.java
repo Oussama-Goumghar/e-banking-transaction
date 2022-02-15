@@ -53,7 +53,7 @@ public class TransactionResource {
         return transactionService.deBlockTransaction(transactions);
     }
 
-    @PatchMapping(value = "/transactions/servir-compte/reference-transaction/{reference}/num-benificiair/{numBenificiair}")
+    @PutMapping(value = "/transactions/servir-compte/reference-transaction/{reference}/num-benificiair/{numBenificiair}")
     public int servirTransactionCompte(
         @PathVariable(value = "reference", required = false) final String reference,
         @PathVariable(value = "numBenificiair", required = false) final String numBenificiair
@@ -61,33 +61,33 @@ public class TransactionResource {
         return transactionService.servirTransactionCompte(reference,numBenificiair);
     }
 
-    @PatchMapping(value = "/transactions/servir-espece/reference-transaction/{reference}")
+    @PutMapping(value = "/transactions/servir-espece/reference-transaction/{reference}")
     public int servirTransactionEspece(
         @PathVariable(value = "reference", required = false) final String reference) {
         return transactionService.servirTransactionEspece(reference);
     }
 
-    @PatchMapping(value = "/transactions/restituer-espece/reference-transaction/{reference}")
+    @PutMapping(value = "/transactions/restituer-espece/reference-transaction/{reference}")
     public int restituerTransactionEspece(
         @PathVariable(value = "reference", required = false) final String reference
     ) throws URISyntaxException {
         return transactionService.restituerTransactionEspece(reference);
     }
 
-    @PatchMapping(value = "/transactions/restituer-compte/reference-transaction/{reference}")
+    @PutMapping(value = "/transactions/restituer-compte/reference-transaction/{reference}")
     public int restituerTransactionCompte(
         @PathVariable(value = "reference", required = false) final String reference
     ) throws URISyntaxException {
         return transactionService.restituerTransactionCompte(reference);
     }
 
-    @PatchMapping(value = "/transactions/extourner-espece/reference-transaction/{reference}")
+    @PutMapping(value = "/transactions/extourner-espece/reference-transaction/{reference}")
     public int extournerTransactionEspece(
         @PathVariable(value = "reference", required = false) final String reference
     ) throws URISyntaxException {
         return transactionService.extournerTransactionEspece(reference);
     }
-    @PatchMapping(value = "/transactions/extourner-compte/reference-transaction/{reference}")
+    @PutMapping(value = "/transactions/extourner-compte/reference-transaction/{reference}")
     public int extournerTransactionCompte(
         @PathVariable(value = "reference", required = false) final String reference
     ) throws URISyntaxException {
