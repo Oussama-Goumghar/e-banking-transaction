@@ -54,11 +54,17 @@ public class TransactionResource {
     }
 
     @PatchMapping(value = "/transactions/servir-compte/reference-transaction/{reference}/num-benificiair/{numBenificiair}")
-    public int servirTransaction(
+    public int servirTransactionCompte(
         @PathVariable(value = "reference", required = false) final String reference,
         @PathVariable(value = "numBenificiair", required = false) final String numBenificiair
     ) {
         return transactionService.servirTransactionCompte(reference,numBenificiair);
+    }
+
+    @PatchMapping(value = "/transactions/servir-espece/reference-transaction/{reference}")
+    public int servirTransactionEspece(
+        @PathVariable(value = "reference", required = false) final String reference) {
+        return transactionService.servirTransactionEspece(reference);
     }
 
     @PatchMapping(value = "/transactions/restituer-espece/reference-transaction/{reference}")
