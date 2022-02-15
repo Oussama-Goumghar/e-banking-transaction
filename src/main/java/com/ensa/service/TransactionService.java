@@ -8,7 +8,9 @@ import java.util.Optional;
 public interface TransactionService {
     int createTransaction(Transaction transaction, String transactionType, String fraitType);
 
-    int servirTransaction(String referenceTransaction);
+    int servirTransactionCompte(String referenceTransaction,String numBenificiare);
+
+    int servirTransactionEspece(String referenceTransaction);
 
     int extournerTransaction(String referenceTransaction);
 

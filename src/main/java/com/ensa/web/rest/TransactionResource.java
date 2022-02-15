@@ -56,11 +56,12 @@ public class TransactionResource {
         return transactionService.deBlockTransaction(transactions);
     }
 
-    @PatchMapping(value = "/transactions/servir/reference-transaction/{reference}")
+    @PatchMapping(value = "/transactions/servir-compte/reference-transaction/{reference}/num-benificiair/{numBenificiair}")
     public int servirTransaction(
-        @PathVariable(value = "reference", required = false) final String reference
-    ) throws URISyntaxException {
-        return transactionService.servirTransaction(reference);
+        @PathVariable(value = "reference", required = false) final String reference,
+        @PathVariable(value = "numBenificiair", required = false) final String numBenificiair
+    ) {
+        return transactionService.servirTransactionCompte(reference,numBenificiair);
     }
 
     @PatchMapping(value = "/transactions/restituer/reference-transaction/{reference}")

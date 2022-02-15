@@ -9,6 +9,7 @@ import com.ensa.repository.MotifRepository;
 import com.ensa.repository.TransactionRepository;
 import com.ensa.repository.TransactionTypeRepository;
 import com.ensa.service.TransactionService;
+import com.ensa.web.rest.proxy.AccountApiProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,9 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     FraitRepository fraitRepository;
 
+    @Autowired
+    private AccountApiProxy accountApiProxy2;
+
     @Override
     public int createTransaction(Transaction transaction, String transactionType, String fraitType) {
         if (transactionRepository.findTransactionByReference(transaction.getReference()) != null) {
@@ -40,12 +44,34 @@ public class TransactionServiceImpl implements TransactionService {
             Motif motifCheck = motifRepository.findMotifByLibelle("motif 1");
             TransactionType transactionTypeCheck = transactionTypeRepository.findTransactionTypeByType(transactionType);
             Frait fraitCheck = fraitRepository.findFraitByType(fraitType);
-            if (transactionTypeCheck == null  && fraitCheck == null) {
+            if (transactionTypeCheck == null && fraitCheck == null) {
                 return -2;
             } else {
                 transaction.setTransactionType(transactionTypeCheck);
                 transaction.setFrait(fraitCheck);
                 transaction.setMotif(motifCheck);
+
+                if (transactionType.equals("espece")) {
+                    System.out.println(String.format("%s %s %s", "transaction-benificiare".equals(fraitCheck.getType()), transaction.getMontant(), fraitCheck.getMontant()));
+
+                    if (!"transaction-benificiare".equals(fraitCheck.getType())) {
+                        transaction.setMontant(transaction.getMontant() - fraitCheck.getMontant());
+                    }
+                    if (transaction.getNotify() == true) {
+                        transaction.setMontant(transaction.getMontant() - 5);
+                    }
+
+                    System.out.println(transaction.getMontant());
+                    accountApiProxy2.creditAccountAgent(transaction.getLoginAgent(), transaction.getMontant());
+
+                }
+                if (transactionType.equals("compte")) {
+                    if (transaction.getNotify() == true) {
+                        transaction.setMontant(transaction.getMontant() + 5);
+                    }
+                    accountApiProxy2.debitCompteClient(transaction.getNumClient(), transaction.getMontant());
+                }
+
                 transaction.setStatus(TransactionStatus.ASERVIR.toString());
                 transaction.setDateEmission(LocalDate.now());
                 transactionRepository.save(transaction);
@@ -55,7 +81,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public int servirTransaction(String referenceTransaction) {
+    public int servirTransactionCompte(String referenceTransaction, String numBenificiare) {
         Transaction transactionCheck = transactionRepository.findTransactionByReference(referenceTransaction);
         if (transactionCheck == null) {
             return -1;
@@ -72,9 +98,62 @@ public class TransactionServiceImpl implements TransactionService {
                         if (transactionCheck.getStatus().equals(TransactionStatus.RETITUER.toString())) {
                             return -5;
                         } else {
-                            TransactionType transactionType = transactionCheck.getTransactionType();
                             Frait frait = transactionCheck.getFrait();
 
+                            int resCreditCompteClient = 0;
+                            if (frait.getType().equals("transaction-benificiare")) {
+                                resCreditCompteClient = accountApiProxy2.crediteCompteClient(numBenificiare, transactionCheck.getMontant() - frait.getMontant());
+                            }
+                            if (frait.getType().equals("transaction-donneur")) {
+                                accountApiProxy2.debitCompteClient(transactionCheck.getNumClient(), frait.getMontant());
+                                resCreditCompteClient = accountApiProxy2.crediteCompteClient(numBenificiare, transactionCheck.getMontant());
+                            }
+                            if (frait.getType().equals("transaction-partege")) {
+                                accountApiProxy2.debitCompteClient(transactionCheck.getNumClient(), frait.getMontant());
+                                resCreditCompteClient = accountApiProxy2.crediteCompteClient(numBenificiare, transactionCheck.getMontant() - frait.getMontant());
+                            }
+                            if (resCreditCompteClient == 1) {
+                                transactionCheck.setStatus(TransactionStatus.SERVIE.toString());
+                                transactionRepository.save(transactionCheck);
+                                return 1;
+                            } else {
+                                return -6;
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    @Override
+    public int servirTransactionEspece(String referenceTransaction) {
+        Transaction transactionCheck = transactionRepository.findTransactionByReference(referenceTransaction);
+        if (transactionCheck == null) {
+            return -1;
+        } else {
+            if (transactionCheck.getStatus().equals(TransactionStatus.SERVIE.toString())) {
+                return -2;
+            } else {
+                if (transactionCheck.getStatus().equals(TransactionStatus.BLOQUE.toString())) {
+                    return -3;
+                } else {
+                    if (transactionCheck.getStatus().equals(TransactionStatus.EXTOURNE.toString())) {
+                        return -4;
+                    } else {
+                        if (transactionCheck.getStatus().equals(TransactionStatus.RETITUER.toString())) {
+                            return -5;
+                        } else {
+                            Frait frait = transactionCheck.getFrait();
+
+                            if (!frait.getType().equals("transaction-donneur")) {
+                                transactionCheck.setMontant(transactionCheck.getMontant() - frait.getMontant());
+                            }
+                            if (transactionCheck.getTransactionType().getType().equals("espece")) {
+                                accountApiProxy2.debitAccountAgent(transactionCheck.getLoginAgent(), transactionCheck.getMontant());
+                            }
                             transactionCheck.setStatus(TransactionStatus.SERVIE.toString());
                             transactionRepository.save(transactionCheck);
                             return 1;
